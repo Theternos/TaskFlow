@@ -33,7 +33,7 @@ const StaffIntegration = () => {
   const fetchIntegrationSettings = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:5000/api/integrations/${user.id}`);
+      const response = await axios.get(`https://taskflow-7vmi.onrender.com/api/integrations/${user.id}`);
       if (response.data.success) {
         setIntegrations(response.data.integrations);
       }
@@ -79,7 +79,7 @@ const StaffIntegration = () => {
       setMessage({ text: '', type: '' });
       
       const response = await axios.post(
-        `http://localhost:5000/api/integrations/${user.id}`,
+        `https://taskflow-7vmi.onrender.com/api/integrations/${user.id}`,
         { integrations }
       );
       
@@ -135,7 +135,7 @@ const handlePhoneSubmit = async () => {
     
     // Save the phone number to the user's profile
     const response = await axios.post(
-      `http://localhost:5000/api/users/${user.id}/phone`,
+      `https://taskflow-7vmi.onrender.com/api/users/${user.id}/phone`,
       { phoneNumber }
     );
     
