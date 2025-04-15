@@ -333,7 +333,7 @@ const [taskDistribution, setTaskDistribution] = useState({
   
   // Fetch tags from the API
   const fetchTags = () => {
-    axios.get("http://localhost:5000/api/tags")
+    axios.get("https://taskflow-enlep7oc.b4a.run/api/tags")
       .then(response => {
         const tagsData = response.data || [];
         setTags(tagsData.map(tag => ({ value: tag, label: tag })));
@@ -344,7 +344,7 @@ const [taskDistribution, setTaskDistribution] = useState({
   // Fetch tasks from the API
   const fetchTasks = () => {
     setLoading(true);
-    axios.get("http://localhost:5000/api/tasks")
+    axios.get("https://taskflow-enlep7oc.b4a.run/api/tasks")
       .then(response => {
         const tasksData = response.data || [];
         setTasks(tasksData);
@@ -531,7 +531,7 @@ const generateAnalyticsData = (tasksData) => {
       status: "Pending"
     };
   
-    axios.post("http://localhost:5000/api/tasks", newTask)
+    axios.post("https://taskflow-enlep7oc.b4a.run/api/tasks", newTask)
       .then(response => {
         console.log("Task added:", response.data);
         setTaskData({ title: "", description: "", dueDate: "", priority: "Low" });
@@ -545,7 +545,7 @@ const generateAnalyticsData = (tasksData) => {
   // Handle file download
   const handleDownload = (filename) => {
     axios({
-      url: `http://localhost:5000/api/tasks/download/${filename}`,
+      url: `https://taskflow-enlep7oc.b4a.run/api/tasks/download/${filename}`,
       method: 'GET',
       responseType: 'blob',
     }).then((response) => {
@@ -582,7 +582,7 @@ const generateAnalyticsData = (tasksData) => {
   const deleteTask = async (taskId) => {
     console.log("Attempting to delete task with ID:", taskId);
     try {
-      const response = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+      const response = await fetch(`https://taskflow-enlep7oc.b4a.run/api/tasks/${taskId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -643,7 +643,7 @@ const generateAnalyticsData = (tasksData) => {
     };
     
     try {
-      const response = await fetch(`http://localhost:5000/api/tasks/${editTask.id}`, {
+      const response = await fetch(`https://taskflow-enlep7oc.b4a.run/api/tasks/${editTask.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -858,15 +858,71 @@ const generateAnalyticsData = (tasksData) => {
         </section>
         
         <section className="charts-section">
-        {/* Task Trends Chart - Enhanced Area Chart */}
-        <div className="card">
+      {/* Task Trends Chart - Enhanced Area Chart */}
+      <div className="card">
+        <div className="card-header">
+          <h2 className="card-title">
+            <i className="fas fa-chart-line"></i>
+            <span>Task Activity Trends</span>
+          </h2>
+          <div className="card-actions">
+            <div className="refresh-timer">Live Data</div>
+            <button className="card-action-btn">
+              <i className="fas fa-sync-alt"></i>
+            </button>
+          </div>
+        </div>
+        <div className="card-body">
+          <div className="chart-container">
+            <ResponsiveContainer width="100%" height={300}>
+              <AreaChart data={analyticsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>  
+                <defs>
+                  <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={COLORS.success} stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor={COLORS.success} stopOpacity={0.1}/>
+                  </linearGradient>
+                  <linearGradient id="colorCreated" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={COLORS.primary} stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor={COLORS.primary} stopOpacity={0.1}/>
+                  </linearGradient>
+                  <linearGradient id="colorActive" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={COLORS.warning} stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor={COLORS.warning} stopOpacity={0.1}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.2} />
+                <XAxis dataKey="date" tick={{ fill: '#6b7280' }} />
+                <YAxis tick={{ fill: '#6b7280' }} />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'rgba(31, 41, 55, 0.8)', 
+                    border: 'none',
+                    borderRadius: '8px',
+                    color: '#fff'
+                  }}
+                  itemStyle={{ color: '#fff' }}
+                  labelStyle={{ color: '#fff', fontWeight: 'bold' }}
+                />
+                <Legend wrapperStyle={{ paddingTop: '10px' }} />
+                <Area type="monotone" dataKey="completed" stroke={COLORS.success} fillOpacity={1} fill="url(#colorCompleted)" strokeWidth={2} name="Completed Tasks" />
+                <Area type="monotone" dataKey="created" stroke={COLORS.primary} fillOpacity={1} fill="url(#colorCreated)" strokeWidth={2} name="New Tasks" />
+                <Area type="monotone" dataKey="active" stroke={COLORS.warning} fillOpacity={1} fill="url(#colorActive)" strokeWidth={2} name="Active Tasks" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+      
+      {/* Task Distribution Pie Charts in a flex layout */}
+      <div className="flex" style={{ display: 'flex', gap: '20px', marginBottom: '20px', minHeight: '420px', maxHeight: '430px' }}>
+        {/* Status Distribution Chart */}
+        <div className="card" style={{ flex: 1 }}>
           <div className="card-header">
             <h2 className="card-title">
-              <i className="fas fa-chart-line"></i>
-              <span>Task Activity Trends</span>
+              <i className="fas fa-chart-pie"></i>
+              <span>Task Status</span>
             </h2>
             <div className="card-actions">
-              <div className="refresh-timer">Live Data</div>
               <button className="card-action-btn">
                 <i className="fas fa-sync-alt"></i>
               </button>
@@ -874,24 +930,138 @@ const generateAnalyticsData = (tasksData) => {
           </div>
           <div className="card-body">
             <div className="chart-container">
-              <ResponsiveContainer width="100%" height={300}>
-                <AreaChart data={analyticsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>  
+              <ResponsiveContainer width="100%" height={280}>
+                <PieChart>
                   <defs>
-                    <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor={COLORS.success} stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor={COLORS.success} stopOpacity={0.1}/>
-                    </linearGradient>
-                    <linearGradient id="colorCreated" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor={COLORS.primary} stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor={COLORS.primary} stopOpacity={0.1}/>
-                    </linearGradient>
-                    <linearGradient id="colorActive" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor={COLORS.warning} stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor={COLORS.warning} stopOpacity={0.1}/>
-                    </linearGradient>
+                    {taskDistributionn.status.map((entry, index) => (
+                      <filter key={`shadow-${index}`} id={`shadow-${entry.name}`} height="200%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor={STATUS_COLORS[entry.name]} />
+                      </filter>
+                    ))}
                   </defs>
+                  <Pie
+                    data={taskDistributionn.status}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={20}
+                    outerRadius={40}
+                    paddingAngle={2}
+                    dataKey="value"
+                    labelLine={false}
+                    label={renderCustomizedLabel}
+                    filter="url(#shadow)"
+                  >
+                    {taskDistributionn.status.map((entry, index) => (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={STATUS_COLORS[entry.name]} 
+                        style={{
+                          filter: `drop-shadow(0px 0px 4px ${STATUS_COLORS[entry.name]}80)`,
+                          outline: 'none'
+                        }}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    formatter={(value, name) => [`${value} tasks`, name]}
+                    contentStyle={{ 
+                      backgroundColor: 'rgba(188, 205, 230, 0.8)', 
+                      border: 'none',
+                      borderRadius: '8px',
+                      color: '#fff'
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+        
+        {/* Priority Distribution Chart */}
+        <div className="card" style={{ flex: 1}}>
+          <div className="card-header">
+            <h2 className="card-title">
+              <i className="fas fa-flag"></i>
+              <span>Priority Distribution</span>
+            </h2>
+            <div className="card-actions">
+              <button className="card-action-btn">
+                <i className="fas fa-sync-alt"></i>
+              </button>
+            </div>
+          </div>
+          <div className="card-body">
+            <div className="chart-container">
+              <ResponsiveContainer width="100%" height={280}>
+                <PieChart>
+                  <defs>
+                    {taskDistributionn.priority.map((entry, index) => (
+                      <filter key={`shadow-${index}`} id={`shadow-${entry.name}`} height="200%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor={PRIORITY_COLORS[entry.name]} />
+                      </filter>
+                    ))}
+                  </defs>
+                  <Pie
+                    data={taskDistributionn.priority}
+                    cx="50%"
+                    cy="50%"
+                    startAngle={90}
+                    endAngle={-270}
+                    innerRadius={40}
+                    outerRadius={70}
+                    paddingAngle={2}
+                    dataKey="value"
+                    labelLine={false}
+                    label={renderCustomizedLabel}
+                  >
+                    {taskDistributionn.priority.map((entry, index) => (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={PRIORITY_COLORS[entry.name]}
+                        style={{
+                          filter: `drop-shadow(0px 0px 4px ${PRIORITY_COLORS[entry.name]}80)`,
+                          cursor: 'pointer'
+                        }}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    formatter={(value, name) => [`${value} tasks`, name]}
+                    contentStyle={{ 
+                      backgroundColor: 'rgba(31, 41, 55, 0.8)', 
+                      border: 'none',
+                      borderRadius: '8px',
+                      color: '#fff'
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Timeline & Tag Analysis in flex layout */}
+      <div className="card" style={{ display: 'flex', gap: '20px', marginBottom: '20px', flexDirection: 'row' }}> 
+        {/* Task Timeline Chart */}
+        <div className="card" style={{ flex: 2 }}>
+          <div className="card-header">
+            <h2 className="card-title">
+              <i className="fas fa-calendar-alt"></i>
+              <span>Task Timeline Analysis</span>
+            </h2>
+            <div className="card-actions">
+              <button className="card-action-btn">
+                <i className="fas fa-sync-alt"></i>
+              </button>
+            </div>
+          </div>
+          <div className="card-body">
+            <div className="chart-container">
+              <ResponsiveContainer width="100%" height={280}>
+                <ComposedChart data={taskTimeline} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.2} />
-                  <XAxis dataKey="date" tick={{ fill: '#6b7280' }} />
+                  <XAxis dataKey="month" tick={{ fill: '#6b7280' }} />
                   <YAxis tick={{ fill: '#6b7280' }} />
                   <Tooltip 
                     contentStyle={{ 
@@ -900,266 +1070,96 @@ const generateAnalyticsData = (tasksData) => {
                       borderRadius: '8px',
                       color: '#fff'
                     }}
-                    itemStyle={{ color: '#fff' }}
-                    labelStyle={{ color: '#fff', fontWeight: 'bold' }}
                   />
                   <Legend wrapperStyle={{ paddingTop: '10px' }} />
-                  <Area type="monotone" dataKey="completed" stroke={COLORS.success} fillOpacity={1} fill="url(#colorCompleted)" strokeWidth={2} name="Completed Tasks" />
-                  <Area type="monotone" dataKey="created" stroke={COLORS.primary} fillOpacity={1} fill="url(#colorCreated)" strokeWidth={2} name="New Tasks" />
-                  <Area type="monotone" dataKey="active" stroke={COLORS.warning} fillOpacity={1} fill="url(#colorActive)" strokeWidth={2} name="Active Tasks" />
-                </AreaChart>
+                  <Bar dataKey="total" name="Total Tasks" fill={COLORS.primaryLight} opacity={0.2} />
+                  <Bar dataKey="completed" name="Completed" stackId="a" fill={COLORS.success} />
+                  <Bar dataKey="pending" name="Pending" stackId="a" fill={COLORS.warning} />
+                  <Bar dataKey="rework" name="Rework" stackId="a" fill={COLORS.accent} />
+                  <Line type="monotone" dataKey="total" name="Task Trend" stroke={COLORS.secondary} strokeWidth={2} dot={{ fill: COLORS.secondary, strokeWidth: 2 }} />
+                </ComposedChart>
               </ResponsiveContainer>
             </div>
           </div>
         </div>
-        
-        {/* Task Distribution Pie Charts in a flex layout */}
-        <div className="flex" style={{ display: 'flex', gap: '20px', marginBottom: '20px', minHeight: '420px', maxHeight: '430px' }}>
-          {/* Status Distribution Chart */}
-          <div className="card" style={{ flex: 1 }}>
-            <div className="card-header">
-              <h2 className="card-title">
-                <i className="fas fa-chart-pie"></i>
-                <span>Task Status</span>
-              </h2>
-              <div className="card-actions">
-                <button className="card-action-btn">
-                  <i className="fas fa-sync-alt"></i>
-                </button>
-              </div>
-            </div>
-            <div className="card-body">
-              <div className="chart-container">
-                <ResponsiveContainer width="100%" height={280}>
-                  <PieChart>
-                    <defs>
-                      {taskDistributionn.status.map((entry, index) => (
-                        <filter key={`shadow-${index}`} id={`shadow-${entry.name}`} height="200%">
-                          <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor={STATUS_COLORS[entry.name]} />
-                        </filter>
-                      ))}
-                    </defs>
-                    <Pie
-                      data={taskDistributionn.status}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={20}
-                      outerRadius={40}
-                      paddingAngle={2}
-                      dataKey="value"
-                      labelLine={false}
-                      label={renderCustomizedLabel}
-                      filter="url(#shadow)"
-                    >
-                      {taskDistributionn.status.map((entry, index) => (
-                        <Cell 
-                          key={`cell-${index}`} 
-                          fill={STATUS_COLORS[entry.name]} 
-                          style={{
-                            filter: `drop-shadow(0px 0px 4px ${STATUS_COLORS[entry.name]}80)`,
-                            outline: 'none'
-                          }}
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip 
-                      formatter={(value, name) => [`${value} tasks`, name]}
-                      contentStyle={{ 
-                        backgroundColor: 'rgba(188, 205, 230, 0.8)', 
-                        border: 'none',
-                        borderRadius: '8px',
-                        color: '#fff'
-                      }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
+      </div>
+              
+        {/* Tag Distribution */}
+        <div className="card" style={{ flex: 1, maxHeight: '440px', overflowY: 'auto' }}>
+          <div className="card-header">
+            <h2 className="card-title">
+              <i className="fas fa-tags"></i>
+              <span>Tag Distribution</span>
+            </h2>
+            <div className="card-actions">
+              <button className="card-action-btn">
+                <i className="fas fa-sync-alt"></i>
+              </button>
             </div>
           </div>
-          
-          {/* Priority Distribution Chart */}
-          <div className="card" style={{ flex: 1}}>
-            <div className="card-header">
-              <h2 className="card-title">
-                <i className="fas fa-flag"></i>
-                <span>Priority Distribution</span>
-              </h2>
-              <div className="card-actions">
-                <button className="card-action-btn">
-                  <i className="fas fa-sync-alt"></i>
-                </button>
-              </div>
-            </div>
-            <div className="card-body">
-              <div className="chart-container">
-                <ResponsiveContainer width="100%" height={280}>
-                  <PieChart>
-                    <defs>
-                      {taskDistributionn.priority.map((entry, index) => (
-                        <filter key={`shadow-${index}`} id={`shadow-${entry.name}`} height="200%">
-                          <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor={PRIORITY_COLORS[entry.name]} />
-                        </filter>
-                      ))}
-                    </defs>
-                    <Pie
-                      data={taskDistributionn.priority}
-                      cx="50%"
-                      cy="50%"
-                      startAngle={90}
-                      endAngle={-270}
-                      innerRadius={40}
-                      outerRadius={70}
-                      paddingAngle={2}
-                      dataKey="value"
-                      labelLine={false}
-                      label={renderCustomizedLabel}
-                    >
-                      {taskDistributionn.priority.map((entry, index) => (
-                        <Cell 
-                          key={`cell-${index}`} 
-                          fill={PRIORITY_COLORS[entry.name]}
-                          style={{
-                            filter: `drop-shadow(0px 0px 4px ${PRIORITY_COLORS[entry.name]}80)`,
-                            cursor: 'pointer'
-                          }}
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip 
-                      formatter={(value, name) => [`${value} tasks`, name]}
-                      contentStyle={{ 
-                        backgroundColor: 'rgba(31, 41, 55, 0.8)', 
-                        border: 'none',
-                        borderRadius: '8px',
-                        color: '#fff'
-                      }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Timeline & Tag Analysis in flex layout */}
-        <div className="card" style={{ display: 'flex', gap: '20px', marginBottom: '20px', flexDirection: 'row' }}> 
-          {/* Task Timeline Chart */}
-          <div className="card" style={{ flex: 2 }}>
-            <div className="card-header">
-              <h2 className="card-title">
-                <i className="fas fa-calendar-alt"></i>
-                <span>Task Timeline Analysis</span>
-              </h2>
-              <div className="card-actions">
-                <button className="card-action-btn">
-                  <i className="fas fa-sync-alt"></i>
-                </button>
-              </div>
-            </div>
-            <div className="card-body">
-              <div className="chart-container">
-                <ResponsiveContainer width="100%" height={280}>
-                  <ComposedChart data={taskTimeline} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.2} />
-                    <XAxis dataKey="month" tick={{ fill: '#6b7280' }} />
-                    <YAxis tick={{ fill: '#6b7280' }} />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'rgba(31, 41, 55, 0.8)', 
-                        border: 'none',
-                        borderRadius: '8px',
-                        color: '#fff'
-                      }}
-                    />
-                    <Legend wrapperStyle={{ paddingTop: '10px' }} />
-                    <Bar dataKey="total" name="Total Tasks" fill={COLORS.primaryLight} opacity={0.2} />
-                    <Bar dataKey="completed" name="Completed" stackId="a" fill={COLORS.success} />
-                    <Bar dataKey="pending" name="Pending" stackId="a" fill={COLORS.warning} />
-                    <Bar dataKey="rework" name="Rework" stackId="a" fill={COLORS.accent} />
-                    <Line type="monotone" dataKey="total" name="Task Trend" stroke={COLORS.secondary} strokeWidth={2} dot={{ fill: COLORS.secondary, strokeWidth: 2 }} />
-                  </ComposedChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
-        </div>
-                
-          {/* Tag Distribution */}
-          <div className="card" style={{ flex: 1, maxHeight: '440px', overflowY: 'auto' }}>
-            <div className="card-header">
-              <h2 className="card-title">
-                <i className="fas fa-tags"></i>
-                <span>Tag Distribution</span>
-              </h2>
-              <div className="card-actions">
-                <button className="card-action-btn">
-                  <i className="fas fa-sync-alt"></i>
-                </button>
-              </div>
-            </div>
-            <div className="card-body">
-              <div className="chart-container">
-              <ResponsiveContainer width="100%" height={280}>
-                <BarChart 
-                  data={tagDistribution} 
-                  layout="vertical" 
-                  margin={{ top: 5, right: 30, left: 50, bottom: 20 }}
+          <div className="card-body">
+            <div className="chart-container">
+            <ResponsiveContainer width="100%" height={280}>
+              <BarChart 
+                data={tagDistribution} 
+                layout="vertical" 
+                margin={{ top: 5, right: 30, left: 50, bottom: 20 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} vertical={true} opacity={1} />
+                <XAxis 
+                  type="number" 
+                  tick={{ fill: '#6b7280' }} 
+                  label={{ 
+                    value: 'No. of Tasks', 
+                    position: 'bottom', 
+                    offset: 0,
+                    fill: '#6b7280',
+                    fontSize: 14,
+                    dy: 10
+                  }} 
+                />
+                <YAxis 
+                  type="category" 
+                  dataKey="name" 
+                  tick={{ fill: '#6b7280' }} 
+                  width={80} 
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'rgb(78, 132, 208)', 
+                    border: 'none',
+                    borderRadius: '10px',
+                    color: '#fff'
+                  }}
+                  formatter={(value) => [`${value} tasks`]}
+                />
+                <Bar 
+                  dataKey="value" 
+                  name="Tasks" 
+                  radius={[0, 6, 6, 0]}
                 >
-                  <CartesianGrid strokeDasharray="3 3" horizontal={false} vertical={true} opacity={1} />
-                  <XAxis 
-                    type="number" 
-                    tick={{ fill: '#6b7280' }} 
-                    label={{ 
-                      value: 'No. of Tasks', 
-                      position: 'bottom', 
-                      offset: 0,
-                      fill: '#6b7280',
-                      fontSize: 14,
-                      dy: 10
-                    }} 
-                  />
-                  <YAxis 
-                    type="category" 
-                    dataKey="name" 
-                    tick={{ fill: '#6b7280' }} 
-                    width={80} 
-                  />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'rgb(78, 132, 208)', 
-                      border: 'none',
-                      borderRadius: '10px',
-                      color: '#fff'
-                    }}
-                    formatter={(value) => [`${value} tasks`]}
-                  />
-                  <Bar 
-                    dataKey="value" 
-                    name="Tasks" 
-                    radius={[0, 6, 6, 0]}
-                  >
-                    {tagDistribution.map((entry, index) => {
-                      // Find max value for scaling
-                      const maxValue = Math.max(...tagDistribution.map(item => item.value));
-                      // Calculate color intensity (0-100 scale)
-                      const intensity = Math.round((entry.value / maxValue) * 100);
-                      // Create color from dark to light blue based on value
-                      const color = `rgb(${20 + intensity}, ${50 + intensity}, ${170 - intensity/2})`;
-                      
-                      return (
-                        <Cell 
-                          key={`cell-${index}`} 
-                          fill={color} 
-                        />
-                      );
-                    })}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-              </div>
+                  {tagDistribution.map((entry, index) => {
+                    // Find max value for scaling
+                    const maxValue = Math.max(...tagDistribution.map(item => item.value));
+                    // Calculate color intensity (0-100 scale)
+                    const intensity = Math.round((entry.value / maxValue) * 100);
+                    // Create color from dark to light blue based on value
+                    const color = `rgb(${20 + intensity}, ${50 + intensity}, ${170 - intensity/2})`;
+                    
+                    return (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={color} 
+                      />
+                    );
+                  })}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
             </div>
           </div>
-      </section>
+        </div>
+    </section>
 
       </main>
     </div>
