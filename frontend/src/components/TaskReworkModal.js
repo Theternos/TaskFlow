@@ -45,7 +45,7 @@ const TaskReworkModal = ({ task, onClose, onReworkSubmitted }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/tasks/${task.id}/rework`,
+        `https://taskflow-7vmi.onrender.com/api/tasks/${task.id}/rework`,
         {
           comment,
           deadline,
