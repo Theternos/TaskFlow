@@ -73,7 +73,7 @@ const FlexDue = () => {
     try {
       // This endpoint would need to be created on your backend
       const response = await axios.get(
-        `http://localhost:5000/api/tasks/requests/history/${currentUser.id}`
+        `https://taskflow-7vmi.onrender.com/api/tasks/requests/history/${currentUser.id}`
       );
       setRequestHistory(response.data);
     } catch (err) {
@@ -214,7 +214,7 @@ const FlexDue = () => {
   // Fetch users from the API
   const fetchUsers = () => {
     axios
-      .get("http://localhost:5000/api/users")
+      .get("https://taskflow-7vmi.onrender.com/api/users")
       .then((response) => {
         const usersArray = Array.isArray(response.data)
           ? response.data
@@ -240,7 +240,7 @@ const FlexDue = () => {
   // Fetch tags from the API
   const fetchTags = () => {
     axios
-      .get("http://localhost:5000/api/tags")
+      .get("https://taskflow-7vmi.onrender.com/api/tags")
       .then((response) => {
         const tagsData = response.data || [];
         setTags(tagsData.map((tag) => ({ value: tag, label: tag })));
@@ -252,7 +252,7 @@ const FlexDue = () => {
   const fetchTasks = () => {
     setLoading(true);
     axios
-      .get("http://localhost:5000/api/tasks")
+      .get("https://taskflow-7vmi.onrender.com/api/tasks")
       .then((response) => {
         const tasksData = response.data || [];
         setTasks(tasksData);
@@ -481,7 +481,7 @@ const FlexDue = () => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/tasks/${taskId}/extension/approve`,
+        `https://taskflow-7vmi.onrender.com/api/tasks/${taskId}/extension/approve`,
         {
           approvedDueDate,
         }
@@ -517,7 +517,7 @@ const FlexDue = () => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/tasks/${taskId}/extension/decline`,
+        `https://taskflow-7vmi.onrender.com/api/tasks/${taskId}/extension/decline`,
         {
           feedback: feedbackForDecline,
         }
@@ -543,7 +543,7 @@ const FlexDue = () => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/tasks/${taskId}/cancellation/approve`,
+        `https://taskflow-7vmi.onrender.com/api/tasks/${taskId}/cancellation/approve`,
         {}
       );
   
@@ -557,7 +557,7 @@ const FlexDue = () => {
           // Automatically decline any pending extension requests
           try {
             await axios.put(
-              `http://localhost:5000/api/tasks/${taskId}/extension/decline`,
+              `https://taskflow-7vmi.onrender.com/api/tasks/${taskId}/extension/decline`,
               {
                 feedback: "This extension request has been automatically declined because the task cancellation request was approved."
               }
@@ -597,7 +597,7 @@ const FlexDue = () => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/tasks/${taskId}/cancellation/decline`,
+        `https://taskflow-7vmi.onrender.com/api/tasks/${taskId}/cancellation/decline`,
         {
           feedback: feedbackForDecline,
         }
@@ -620,7 +620,7 @@ const FlexDue = () => {
 
   // Add a helper function to open files in a new tab
   const openFileInNewTab = (filename) => {
-    window.open(`http://localhost:5000/api/tasks/view/${filename}`, "_blank");
+    window.open(`https://taskflow-7vmi.onrender.com/api/tasks/view/${filename}`, "_blank");
   };
 
   // Helper function to get all tasks with either extension or cancellation requests
