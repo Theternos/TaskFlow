@@ -103,7 +103,7 @@ const StaffRequests = () => {
     try {
       // This endpoint would need to be created on your backend
       const response = await axios.get(
-        `https://taskflow-7vmi.onrender.com/api/tasks/requests/history/${currentUser.id}`
+        `https://taskflow-enlep7oc.b4a.run/api/tasks/requests/history/${currentUser.id}`
       );
       setRequestHistory(response.data);
     } catch (err) {
@@ -206,7 +206,7 @@ const StaffRequests = () => {
   const fetchTasks = async (currentUser) => {
     setLoading(true);
     try {
-      const response = await axios.get("https://taskflow-7vmi.onrender.com/api/tasks");
+      const response = await axios.get("https://taskflow-enlep7oc.b4a.run/api/tasks");
       // Filter tasks assigned to the current user
       const userTasks = response.data.filter(
         (task) => task.assignedTo === String(currentUser?.id)
@@ -242,7 +242,7 @@ const StaffRequests = () => {
     // Fetch users for the usersMap
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("https://taskflow-7vmi.onrender.com/api/users");
+        const response = await axios.get("https://taskflow-enlep7oc.b4a.run/api/users");
         const usersById = {};
         response.data.forEach((user) => {
           usersById[user.id] = user;
@@ -532,7 +532,7 @@ const StaffRequests = () => {
         formData.append("extensionData", JSON.stringify(extensionData));
 
         response = await axios.post(
-          `https://taskflow-7vmi.onrender.com/api/tasks/${selectedTaskForExtension.id}/extension-request`,
+          `https://taskflow-enlep7oc.b4a.run/api/tasks/${selectedTaskForExtension.id}/extension-request`,
           formData,
           {
             headers: {
@@ -543,7 +543,7 @@ const StaffRequests = () => {
       } else {
         // If no file, just send the extension data
         response = await axios.post(
-          `https://taskflow-7vmi.onrender.com/api/tasks/${selectedTaskForExtension.id}/extension-request`,
+          `https://taskflow-enlep7oc.b4a.run/api/tasks/${selectedTaskForExtension.id}/extension-request`,
           extensionData
         );
       }
@@ -617,7 +617,7 @@ const StaffRequests = () => {
         formData.append("cancellationData", JSON.stringify(cancellationData));
 
         response = await axios.post(
-          `https://taskflow-7vmi.onrender.com/api/tasks/${selectedTaskForCancellation.id}/cancellation-request`,
+          `https://taskflow-enlep7oc.b4a.run/api/tasks/${selectedTaskForCancellation.id}/cancellation-request`,
           formData,
           {
             headers: {
@@ -627,7 +627,7 @@ const StaffRequests = () => {
         );
       } else {
         response = await axios.post(
-          `https://taskflow-7vmi.onrender.com/api/tasks/${selectedTaskForCancellation.id}/cancellation-request`,
+          `https://taskflow-enlep7oc.b4a.run/api/tasks/${selectedTaskForCancellation.id}/cancellation-request`,
           cancellationData
         );
       }

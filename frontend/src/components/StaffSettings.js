@@ -27,7 +27,7 @@ const StaffSettings = () => {
   const fetchTasks = async (currentUser) => {
     setLoading(true);
     try {
-      const response = await axios.get('https://taskflow-7vmi.onrender.com/api/tasks');
+      const response = await axios.get('https://taskflow-enlep7oc.b4a.run/api/tasks');
       // Filter tasks assigned to the current user
       const userTasks = response.data.filter(
         task => task.assignedTo === String(currentUser?.id)
@@ -61,7 +61,7 @@ const StaffSettings = () => {
     // Fetch users for the usersMap
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('https://taskflow-7vmi.onrender.com/api/users');
+        const response = await axios.get('https://taskflow-enlep7oc.b4a.run/api/users');
         const usersById = {};
         response.data.forEach(user => {
           usersById[user.id] = user;
@@ -112,7 +112,7 @@ const StaffSettings = () => {
     }
     
     try {
-      const response = await axios.post('https://taskflow-7vmi.onrender.com/api/change-password', {
+      const response = await axios.post('https://taskflow-enlep7oc.b4a.run/api/change-password', {
         userId: user.id,
         currentPassword: passwordData.currentPassword,
         newPassword: passwordData.newPassword
@@ -143,7 +143,7 @@ const StaffSettings = () => {
     }
     
     try {
-      const response = await axios.post('https://taskflow-7vmi.onrender.com/api/update-phone', {
+      const response = await axios.post('https://taskflow-enlep7oc.b4a.run/api/update-phone', {
         userId: user.id,
         phoneNumber: phoneData.phoneNumber
       });

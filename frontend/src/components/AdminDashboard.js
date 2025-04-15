@@ -285,7 +285,7 @@ const [taskDistribution, setTaskDistribution] = useState({
     e.preventDefault();
     console.log('Sending user data:', newUser);
   
-    axios.post('https://taskflow-7vmi.onrender.com/api/register', newUser)
+    axios.post('https://taskflow-enlep7oc.b4a.run/api/register', newUser)
       .then(response => {
         alert('User registered successfully!');
         setNewUser({ username: '', email: '', password: '', role: 'user' });
@@ -310,7 +310,7 @@ const [taskDistribution, setTaskDistribution] = useState({
 
   // Fetch users from the API
   const fetchUsers = () => {
-    axios.get('https://taskflow-7vmi.onrender.com/api/users')
+    axios.get('https://taskflow-enlep7oc.b4a.run/api/users')
       .then(response => {
         const usersArray = Array.isArray(response.data) ? response.data : (response.data.users || []);
         

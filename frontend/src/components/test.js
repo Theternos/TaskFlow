@@ -285,7 +285,7 @@ const [taskDistribution, setTaskDistribution] = useState({
     e.preventDefault();
     console.log('Sending user data:', newUser);
   
-    axios.post('https://taskflow-7vmi.onrender.com/api/register', newUser)
+    axios.post('https://taskflow-enlep7oc.b4a.run/api/register', newUser)
       .then(response => {
         alert('User registered successfully!');
         setNewUser({ username: '', email: '', password: '', role: 'user' });
@@ -310,7 +310,7 @@ const [taskDistribution, setTaskDistribution] = useState({
 
   // Fetch users from the API
   const fetchUsers = () => {
-    axios.get('https://taskflow-7vmi.onrender.com/api/users')
+    axios.get('https://taskflow-enlep7oc.b4a.run/api/users')
       .then(response => {
         const usersArray = Array.isArray(response.data) ? response.data : (response.data.users || []);
         
@@ -333,7 +333,7 @@ const [taskDistribution, setTaskDistribution] = useState({
   
   // Fetch tags from the API
   const fetchTags = () => {
-    axios.get("https://taskflow-7vmi.onrender.com/api/tags")
+    axios.get("https://taskflow-enlep7oc.b4a.run/api/tags")
       .then(response => {
         const tagsData = response.data || [];
         setTags(tagsData.map(tag => ({ value: tag, label: tag })));
@@ -344,7 +344,7 @@ const [taskDistribution, setTaskDistribution] = useState({
   // Fetch tasks from the API
   const fetchTasks = () => {
     setLoading(true);
-    axios.get("https://taskflow-7vmi.onrender.com/api/tasks")
+    axios.get("https://taskflow-enlep7oc.b4a.run/api/tasks")
       .then(response => {
         const tasksData = response.data || [];
         setTasks(tasksData);
@@ -531,7 +531,7 @@ const generateAnalyticsData = (tasksData) => {
       status: "Pending"
     };
   
-    axios.post("https://taskflow-7vmi.onrender.com/api/tasks", newTask)
+    axios.post("https://taskflow-enlep7oc.b4a.run/api/tasks", newTask)
       .then(response => {
         console.log("Task added:", response.data);
         setTaskData({ title: "", description: "", dueDate: "", priority: "Low" });
@@ -545,7 +545,7 @@ const generateAnalyticsData = (tasksData) => {
   // Handle file download
   const handleDownload = (filename) => {
     axios({
-      url: `https://taskflow-7vmi.onrender.com/api/tasks/download/${filename}`,
+      url: `https://taskflow-enlep7oc.b4a.run/api/tasks/download/${filename}`,
       method: 'GET',
       responseType: 'blob',
     }).then((response) => {
@@ -582,7 +582,7 @@ const generateAnalyticsData = (tasksData) => {
   const deleteTask = async (taskId) => {
     console.log("Attempting to delete task with ID:", taskId);
     try {
-      const response = await fetch(`https://taskflow-7vmi.onrender.com/api/tasks/${taskId}`, {
+      const response = await fetch(`https://taskflow-enlep7oc.b4a.run/api/tasks/${taskId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -643,7 +643,7 @@ const generateAnalyticsData = (tasksData) => {
     };
     
     try {
-      const response = await fetch(`https://taskflow-7vmi.onrender.com/api/tasks/${editTask.id}`, {
+      const response = await fetch(`https://taskflow-enlep7oc.b4a.run/api/tasks/${editTask.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
