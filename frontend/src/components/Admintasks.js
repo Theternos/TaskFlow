@@ -121,7 +121,7 @@ const Admintask = () => {
   // Fetch users from the API
   const fetchUsers = () => {
     axios
-      .get("http://localhost:5000/api/users")
+      .get("https://taskflow-7vmi.onrender.com/api/users")
       .then((response) => {
         const usersArray = Array.isArray(response.data)
           ? response.data
@@ -147,7 +147,7 @@ const Admintask = () => {
   // Fetch tags from the API
   const fetchTags = () => {
     axios
-      .get("http://localhost:5000/api/tags")
+      .get("https://taskflow-7vmi.onrender.com/api/tags")
       .then((response) => {
         const tagsData = response.data || [];
         setTags(tagsData.map((tag) => ({ value: tag, label: tag })));
@@ -159,7 +159,7 @@ const Admintask = () => {
   const fetchTasks = () => {
     setLoading(true);
     axios
-      .get("http://localhost:5000/api/tasks")
+      .get("https://taskflow-7vmi.onrender.com/api/tasks")
       .then((response) => {
         const tasksData = response.data || [];
         setTasks(tasksData);
@@ -245,7 +245,7 @@ const Admintask = () => {
   // Handle file download
   const handleDownload = (filename) => {
     axios({
-      url: `http://localhost:5000/api/tasks/download/${filename}`,
+      url: `https://taskflow-7vmi.onrender.com/api/tasks/download/${filename}`,
       method: "GET",
       responseType: "blob",
     })
@@ -298,7 +298,7 @@ const Admintask = () => {
     console.log("Attempting to delete task with ID:", taskId);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/tasks/${taskId}`,
+        `https://taskflow-7vmi.onrender.com/api/tasks/${taskId}`,
         {
           method: "DELETE",
           headers: {
@@ -387,7 +387,7 @@ const Admintask = () => {
         formData.append("taskData", JSON.stringify(updatedTask));
 
         const response = await fetch(
-          `http://localhost:5000/api/v2/tasks/${editTask.id}/upload`,
+          `https://taskflow-7vmi.onrender.com/api/v2/tasks/${editTask.id}/upload`,
           {
             method: "POST",
             body: formData,
@@ -413,7 +413,7 @@ const Admintask = () => {
       } else {
         // If no file to upload, use regular JSON
         const response = await fetch(
-          `http://localhost:5000/api/v2/tasks/${editTask.id}`,
+          `https://taskflow-7vmi.onrender.com/api/v2/tasks/${editTask.id}`,
           {
             method: "PUT",
             headers: {
@@ -645,7 +645,7 @@ const Admintask = () => {
     const token = localStorage.getItem("token");
 
     // API call to mark task as complete
-    fetch(`http://localhost:5000/api/tasks/${taskId}/complete`, {
+    fetch(`https://taskflow-7vmi.onrender.com/api/tasks/${taskId}/complete`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -722,7 +722,7 @@ const Admintask = () => {
     const token = localStorage.getItem("token");
 
     // API call to submit task for rework
-    fetch(`http://localhost:5000/api/tasks/${taskId}/rework`, {
+    fetch(`https://taskflow-7vmi.onrender.com/api/tasks/${taskId}/rework`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -928,7 +928,7 @@ const Admintask = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/tasks",
+        "https://taskflow-7vmi.onrender.com/api/tasks",
         formData,
         {
           headers: {
@@ -1992,7 +1992,7 @@ const Admintask = () => {
                                         className="btn btn-primary view-btn"
                                         onClick={() =>
                                           window.open(
-                                            `http://localhost:5000/api/tasks/view/${
+                                            `https://taskflow-7vmi.onrender.com/api/tasks/view/${
                                               viewReportTask.reworkDetails
                                                 .length > 0 &&
                                               viewReportTask.reworkDetails[
@@ -2127,7 +2127,7 @@ const Admintask = () => {
                                                       className="btn btn-sm btn-primary"
                                                       onClick={() =>
                                                         window.open(
-                                                          `http://localhost:5000/api/tasks/view/${rework.attachmentFile.filename}`,
+                                                          `https://taskflow-7vmi.onrender.com/api/tasks/view/${rework.attachmentFile.filename}`,
                                                           "_blank"
                                                         )
                                                       }
@@ -2219,7 +2219,7 @@ const Admintask = () => {
                                                 className="btn btn-sm btn-primary"
                                                 onClick={() =>
                                                   window.open(
-                                                    `http://localhost:5000/api/tasks/view/${viewReportTask.attachmentFile.filename}`,
+                                                    `https://taskflow-7vmi.onrender.com/api/tasks/view/${viewReportTask.attachmentFile.filename}`,
                                                     "_blank"
                                                   )
                                                 }
@@ -2325,7 +2325,7 @@ const Admintask = () => {
                                     className="btn btn-primary view-btn"
                                     onClick={() =>
                                       window.open(
-                                        `http://localhost:5000/api/tasks/view/${viewReportTask.attachmentFile.filename}`,
+                                        `https://taskflow-7vmi.onrender.com/api/tasks/view/${viewReportTask.attachmentFile.filename}`,
                                         "_blank"
                                       )
                                     }
@@ -2640,7 +2640,7 @@ const Admintask = () => {
                                         className="btn btn-primary view-btn"
                                         onClick={() =>
                                           window.open(
-                                            `http://localhost:5000/api/tasks/view/${
+                                            `https://taskflow-7vmi.onrender.com/api/tasks/view/${
                                               viewOnlyReportTask.reworkDetails
                                                 .length > 0 &&
                                               viewOnlyReportTask.reworkDetails[
@@ -2776,7 +2776,7 @@ const Admintask = () => {
                                                       className="btn btn-sm btn-primary"
                                                       onClick={() =>
                                                         window.open(
-                                                          `http://localhost:5000/api/tasks/view/${rework.attachmentFile.filename}`,
+                                                          `https://taskflow-7vmi.onrender.com/api/tasks/view/${rework.attachmentFile.filename}`,
                                                           "_blank"
                                                         )
                                                       }
@@ -2868,7 +2868,7 @@ const Admintask = () => {
                                                 className="btn btn-sm btn-primary"
                                                 onClick={() =>
                                                   window.open(
-                                                    `http://localhost:5000/api/tasks/view/${viewOnlyReportTask.attachmentFile.filename}`,
+                                                    `https://taskflow-7vmi.onrender.com/api/tasks/view/${viewOnlyReportTask.attachmentFile.filename}`,
                                                     "_blank"
                                                   )
                                                 }
@@ -2979,7 +2979,7 @@ const Admintask = () => {
                                     className="btn btn-primary view-btn"
                                     onClick={() =>
                                       window.open(
-                                        `http://localhost:5000/api/tasks/view/${viewOnlyReportTask.attachmentFile.filename}`,
+                                        `https://taskflow-7vmi.onrender.com/api/tasks/view/${viewOnlyReportTask.attachmentFile.filename}`,
                                         "_blank"
                                       )
                                     }
