@@ -390,7 +390,7 @@ export default function TaskSubmissionsDashboard() {
                     <button
                       className="tsd-report-view-button"
                       onClick={() => window.open(
-                        `http://localhost:5000/api/tasks/view/${viewReportTask.attachmentFile.filename}`,
+                        `https://taskflow-7vmi.onrender.com/api/tasks/view/${viewReportTask.attachmentFile.filename}`,
                         "_blank"
                       )}
                     >
