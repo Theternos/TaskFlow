@@ -46,7 +46,7 @@ const StaffRequestModal = ({ user, task, onClose, onTaskRefresh }) => {
     if ((requestStage === 'success' && activeSection === 'cancellation') || cancellationRequestSubmitted) {
       try {
         console.log('Fetching cancellation request status for task:', task.id);
-        const response = await axios.get(`http://localhost:5000/api/cancellation-requests/${task.id}`);
+        const response = await axios.get(`https://taskflow-7vmi.onrender.com/api/cancellation-requests/${task.id}`);
         
         // Log the response to debug
         console.log('API Response (Cancellation):', response.data);
@@ -110,7 +110,7 @@ const StaffRequestModal = ({ user, task, onClose, onTaskRefresh }) => {
     if (requestStage === 'success' || requestSubmitted) {
       try {
         console.log('Fetching request status for task:', task.id);
-        const response = await axios.get(`http://localhost:5000/api/extension-requests/${task.id}`);
+        const response = await axios.get(`https://taskflow-7vmi.onrender.com/api/extension-requests/${task.id}`);
         
         // Log the response to debug
         console.log('API Response:', response.data);
@@ -187,14 +187,14 @@ const StaffRequestModal = ({ user, task, onClose, onTaskRefresh }) => {
     const checkExistingRequests = async () => {
       try {
         // Check for extension requests
-        const extensionResponse = await axios.get(`http://localhost:5000/api/extension-requests/${task.id}`);
+        const extensionResponse = await axios.get(`https://taskflow-7vmi.onrender.com/api/extension-requests/${task.id}`);
         
         if (extensionResponse.data && Array.isArray(extensionResponse.data) && extensionResponse.data.length > 0) {
           setRequestSubmitted(true);
         }
         
         // Check for cancellation requests
-        const cancellationResponse = await axios.get(`http://localhost:5000/api/cancellation-requests/${task.id}`);
+        const cancellationResponse = await axios.get(`https://taskflow-7vmi.onrender.com/api/cancellation-requests/${task.id}`);
         
         if (cancellationResponse.data && Array.isArray(cancellationResponse.data) && cancellationResponse.data.length > 0) {
           setCancellationRequestSubmitted(true);
@@ -287,7 +287,7 @@ const StaffRequestModal = ({ user, task, onClose, onTaskRefresh }) => {
         formData.append('extensionData', JSON.stringify(extensionData));
   
         response = await axios.post(
-          `http://localhost:5000/api/tasks/${task.id}/extension-request`,
+          `https://taskflow-7vmi.onrender.com/api/tasks/${task.id}/extension-request`,
           formData,
           {
             headers: {
@@ -301,7 +301,7 @@ const StaffRequestModal = ({ user, task, onClose, onTaskRefresh }) => {
         );
       } else {
         response = await axios.post(
-          `http://localhost:5000/api/tasks/${task.id}/extension-request`,
+          `https://taskflow-7vmi.onrender.com/api/tasks/${task.id}/extension-request`,
           extensionData
         );
       }
@@ -356,7 +356,7 @@ const StaffRequestModal = ({ user, task, onClose, onTaskRefresh }) => {
         formData.append('cancellationData', JSON.stringify(cancellationData));
   
         response = await axios.post(
-          `http://localhost:5000/api/tasks/${task.id}/cancellation-request`,
+          `https://taskflow-7vmi.onrender.com/api/tasks/${task.id}/cancellation-request`,
           formData,
           {
             headers: {
@@ -370,7 +370,7 @@ const StaffRequestModal = ({ user, task, onClose, onTaskRefresh }) => {
         );
       } else {
         response = await axios.post(
-          `http://localhost:5000/api/tasks/${task.id}/cancellation-request`,
+          `https://taskflow-7vmi.onrender.com/api/tasks/${task.id}/cancellation-request`,
           cancellationData
         );
       }
