@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // If you're using the cors package
 app.use(cors({
-  origin: 'http://localhost:3000', // or your frontend URL
+  origin: 'https://task-flow-y4w8.vercel.app/', // or your frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
