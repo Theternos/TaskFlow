@@ -40,7 +40,7 @@ const TaskViewModal = ({ task, isOpen, onClose, usersMap }) => {
 
   const handleDownload = (filename) => {
     axios({
-      url: `http://localhost:5000/api/tasks/download/${filename}`,
+      url: `https://taskflow-7vmi.onrender.com/api/tasks/download/${filename}`,
       method: 'GET',
       responseType: 'blob',
     }).then((response) => {
@@ -304,7 +304,7 @@ const TaskViewModal = ({ task, isOpen, onClose, usersMap }) => {
                     </button>
                     <button 
                       className="task-modal-resource-btn view-btn" 
-                      onClick={() => window.open(`http://localhost:5000/api/tasks/view/${task.file.filename}`, '_blank')}
+                      onClick={() => window.open(`https://taskflow-7vmi.onrender.com/api/tasks/view/${task.file.filename}`, '_blank')}
                       disabled={isLoading}
                     >
                       {isLoading ? 'Processing...' : 'View'}
@@ -416,7 +416,7 @@ const TaskViewModal = ({ task, isOpen, onClose, usersMap }) => {
                                 </button>
                                 <button 
                                   className="submission-file-btn view"
-                                  onClick={() => window.open(`http://localhost:5000/api/tasks/view/${submission.file.filename}`, '_blank')}
+                                  onClick={() => window.open(`https://taskflow-7vmi.onrender.com/api/tasks/view/${submission.file.filename}`, '_blank')}
                                 >
                                   View &nbsp;
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
