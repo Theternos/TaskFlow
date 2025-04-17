@@ -3021,6 +3021,88 @@ app.use((err, req, res, next) => {
 
 
 
+// Add this endpoint to your existing routes
+app.get('/api/tasks/requests/history/all', (req, res) => {
+  try {
+    // Read tasks from your data file (assuming you're using JSON files based on your code)
+    const tasksFilePath = path.join(__dirname, 'data', 'data.json');
+    
+    // Check if file exists
+    if (!fs.existsSync(tasksFilePath)) {
+      return res.status(404).json({ success: false, message: 'Tasks file not found' });
+    }
+    
+    // Read and parse tasks
+    const tasksData = JSON.parse(fs.readFileSync(tasksFilePath, 'utf8'));
+    const tasks = Array.isArray(tasksData) ? tasksData : (tasksData.tasks || []);
+    
+    // Extract all request history items
+    const history = [];
+    
+    tasks.forEach(task => {
+      // Process extension requests
+      if (task.extensionRequests && task.extensionRequests.length > 0) {
+        task.extensionRequests.forEach(req => {
+          history.push({
+            taskId: task.id,
+            taskTitle: task.title,
+            taskDescription: task.description,
+            assignedTo: task.assignedTo,
+            requestType: "extension",
+            requestDate: req.requestDate || req.createdAt,
+            status: req.status,
+            reason: req.reason,
+            requestedDate: req.requestedDate,
+            feedback: req.feedback
+          });
+        });
+      }
+      
+      // Process cancellation requests
+      if (task.cancellationRequests && task.cancellationRequests.length > 0) {
+        task.cancellationRequests.forEach(req => {
+          history.push({
+            taskId: task.id,
+            taskTitle: task.title,
+            taskDescription: task.description,
+            assignedTo: task.assignedTo,
+            requestType: "cancellation",
+            requestDate: req.requestDate || req.createdAt,
+            status: req.status,
+            reason: req.reason,
+            feedback: req.feedback
+          });
+        });
+      }
+    });
+    
+    // Sort by request date (newest first)
+    history.sort((a, b) => {
+      const dateA = new Date(a.requestDate || a.createdAt || 0);
+      const dateB = new Date(b.requestDate || b.createdAt || 0);
+      return dateB - dateA;
+    });
+    
+    res.json(history);
+  } catch (error) {
+    console.error('Error fetching request history:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Error fetching request history', 
+      error: error.message 
+    });
+  }
+});
+
+
+
+
+
+
+
+
+
+
 
 
 
