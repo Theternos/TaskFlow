@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // If you're using the cors package
 app.use(cors({
-  origin: '*', // or your frontend URL
+  origin: 'http://localhost:3000', // or your frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
