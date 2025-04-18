@@ -11,6 +11,7 @@ const { google } = require('googleapis');
 const axios = require('axios');
 const moment = require('moment');
 const ml = require('ml-matrix');
+const open = require('open');
 
 // Configuration
 const PORT = process.env.PORT || 5000;
@@ -25,6 +26,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 
 
@@ -319,8 +321,8 @@ app.get("/api/tasks", (req, res) => {
 async function sendWhatsappMessage(newTask, userName, PHONE_NUMBER) {
   try {
     const response = await axios.post('https://whats-api.rcsoft.in/api/create-message', {
-      appkey: '4c9c97cd-9022-43e6-aa39-f43ac436bf7c',
-      authkey: 'Tsf8rjM4fLAgmDp3GXq4dN9bPXHJd6FFHgj8tnwytVGJwIgKDG',
+      appkey: '338d288c-c398-4430-97a0-4cee124648a8',
+      authkey: 'Pxai1v0c6l1WV5SchmG7DHQQp9dwBsIXIKZBtRCboE4sGQeqT5',
       to: PHONE_NUMBER,
       message: `Dear ${userName},  
 
@@ -426,8 +428,7 @@ app.post("/api/tasks", upload.single('file'), async (req, res) => {
       file: fileInfo
     };
 
-    data.tasks.push(newTask);
-    writeData(data);
+
 
   
 
@@ -441,23 +442,17 @@ app.post("/api/tasks", upload.single('file'), async (req, res) => {
 
       // Send Google Calendar event request
       if (assignedUser.integrations.calendar) {
-        fetch('http://localhost:4000/createUserTask', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            userEmail: assignedUser.email,
-            taskTitle: newTask.title,
-            taskLocation: "Virtual meeting",
-            taskDescription: newTask.description,
-            startDateTime: newTask.dueDate + "T15:00:00",
-            endDateTime: newTask.dueDate + "T16:00:00",
+        
+          // Example usage with proper parameters:
+          const eventResponse = await createCalendarEvent(assignedUser.id, {
+            title: newTask.title,
+            description: newTask.description,
+            startTime: newTask.dueDate + "T15:00:00",
+            endTime: newTask.dueDate + "T16:00:00",
             timeZone: "Asia/Kolkata"
-          })
-        })
-          .then(response => response.json())
-          .then(data => console.log('Success:', data))
-          .catch(error => console.error('Error:', error));
+          });
 
+          newTask.calendarEventId = eventResponse.id;
 
       } else {
         console.log("Calendar integration is disabled for this user.");
@@ -503,8 +498,8 @@ app.post("/api/tasks", upload.single('file'), async (req, res) => {
         const twilio = require("twilio");
 
         // Twilio credentials
-        const TWILIO_ACCOUNT_SID = "ACe7b905f3f0ae5f49816000ca05882a49";
-        const TWILIO_AUTH_TOKEN = "8a9acc67baa4412d1fbaf22c2359fee2";
+        const TWILIO_ACCOUNT_SID = "AC90775427bd6e877c845a1544361287d1";
+        const TWILIO_AUTH_TOKEN = "64be48daa5dd77a32f8524865ee6a763";
 
         // Initialize Twilio client
         const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
@@ -517,7 +512,7 @@ app.post("/api/tasks", upload.single('file'), async (req, res) => {
                 const call = await client.calls.create({
                     url: "https://res.cloudinary.com/dscw2j1rl/video/upload/v1742759885/ttsmaker-file-2025-3-24-1-26-7_xrlrev.mp3",
                     method: "GET",
-                    from: "+16266029252", // Your Twilio number
+                    from: "+18654202852", // Your Twilio number
                     to: PHONE_NUMBER
                 });
 
@@ -543,6 +538,10 @@ app.post("/api/tasks", upload.single('file'), async (req, res) => {
       } else {
         console.log("Whastapp integration is disabled for this user.");
       }
+
+      data.tasks.push(newTask);
+      writeData(data);
+
 
       res.json({ 
         message: emailSent ? "Task added successfully and notification sent" : "Task added successfully but notification failed", 
@@ -635,6 +634,15 @@ app.delete('/api/tasks/:id', (req, res) => {
         return res.status(404).json({ error: 'Task not found' });
       }
       
+      const taskToDelete = jsonData.tasks[taskIndex];
+      
+      // Delete the calendar event if there's an assignedTo and calendarEventId
+      if (taskToDelete.assignedTo && taskToDelete.calendarEventId) {
+        // This should be an async operation, but we're handling it synchronously for simplicity
+        deleteCalendarEvent(taskToDelete.assignedTo, taskToDelete.calendarEventId)
+          .catch(error => console.error('Error deleting calendar event:', error));
+      }
+            
       // Remove the task from the array
       jsonData.tasks.splice(taskIndex, 1);
       
@@ -644,6 +652,7 @@ app.delete('/api/tasks/:id', (req, res) => {
           console.error('Error writing to data file:', err);
           return res.status(500).json({ error: 'Failed to update data file' });
         }
+
         
         res.status(200).json({ message: 'Task deleted successfully' });
       });
@@ -1638,115 +1647,572 @@ const sendReworkNotification = async (userEmail, task, comment, deadline, userNa
 
 
 
-// Calenger Integration
 
-const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly';
-const GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDpuiVJBHyhgq62\nUzSPVQhf6hkcJUDrCpDbop4GXMDZK+wckvSMYT+KzOaxKpBm9O9IsqM8h5PAIpka\nRGANVUv3vSeCPFwVK1DjlxCpI/ExgPyL7qLE1lMoP6b8Xa/JtT0fBp5rIxa0ZCtK\nBkMjnlfJiL5RVtJ6d11+aDKdZKkVGfkZuhznm1EgnCjy83iDqDtdTeTakNwbB57I\nqX5wkTwFOD+SUPOU8Mmto3ctydn2Zc4s5bU0NU3aPzX3lr4mKTzJQgXhndfK6j3h\nbol2+SvnuT+csO+t/+gxi4tJlfWMstHmKXL9eYHKsopco1DxZbRGfXFfPLp9zBxJ\nvvbKKQcvAgMBAAECggEASq7FLTC21jDYvL+Xgtkr5OH7hgfNV403vkaW8fd/U6V6\nO6MlaxnD4QkaCbBNFejb8MHL8RJtPq6Pd1ozyu7faFjToATDc6w0m5RwqWsnrabG\ni7wD3JuTVMAKDoetHOnBjwFha2B558g+INghaec1q9r63Si99o3fnP2UdsBsWqYm\nm8dMumiS31wyH5WTA1yfnGIXdEMaMEPxObbXPpyxkcWCLC55fzGpiHtIwA6fR5Om\nB2M7xHXbuj+0XwXQ8mVRIaU2SkFLo45wKsnytqo2P5QT7jAsHvW/Hca/2BxeHGcy\nJ1qvXehMqtJW37uSPUXo86EEXNQP6Q1v6jh1SmSuWQKBgQD54C06VIQesHcipP55\ntgHcQlkM1xRgOblREay9ifCGxnLe3YDcE0NXrVMJu6owtZn0gvd5Uz2sAtv2fFqN\nT+4O2yFJz123bOuqyhOtH2YEsFLfUg8zEh2a3MyVmq77ZqdgDgZUzexupk5PewaV\nHcjyg9vA9G1H1LVtJONHppvwrQKBgQDvdKVwQ4o9y7Usf1+ZxzY7yacbr5e9YE7V\n4Qo2q1aP7epCvz60uMj6nKKctwrseZf8Ms8IxUIaf8E/0JYnUsZBOK7P9JLdhg3i\nKJpNKFCHaoUm6szWc1kdO3EzxljMvHem6vDglwBosKJ1RCOMpATvHri4hjBSEVZv\n31r/2VWmywKBgQDoa8PF8N0fqqZ1/CCT117toG0yS1CxnJ+qL5WMi6TFyAsLD9+P\nVP+bqyWE9SD9w71bOQK1wF6qA9LT96FGtiVJfjv9arvSJKckqmgY7Q64p8W94Zcv\nutb8uAo30bSXNUnUR9dNxGj6FwjaVyWtSBIkuc+LMBAB83F5/wjFGc0M1QKBgCM3\n7ck4NdHm7yuvRDlS4ngirZBV4CR7UL0GT0FBLAcZP/Y3OJrN/slVVllkVpf3PlJa\nirbIhHNvTNX88Mix1PTsyFFPsHYibFJSFHe6sTVphlH2ANCdwIKbJogt6QubwKFt\nNqZhry62o/5JWk0qJoug4hxJqDu5zxO/LxwoM//HAoGAUo1HYLeF0dnBXs8Gjb9u\nMxu2twp3NGkPN26XWSvARqa1NMvxh9umliNZEz3kDKlP0eCJ2bjNVaYKH0p+XnQD\nX3yIQERfd4ScoHlcrmob3wm3V6apf7Au/9c5wdjX970rOjb7fGCP5HYfCmP3JX2p\nBMeV8rO2wrloFLwczaXn4aA=\n-----END PRIVATE KEY-----\n"
-const GOOGLE_CLIENT_EMAIL = "task-management@tasky-454610.iam.gserviceaccount.com"
-const GOOGLE_PROJECT_NUMBER = "787366153556"
-const GOOGLE_CALENDAR_ID = "250a984e8e44bd05128ca32cc99fae6d999d55add46ec8ada084e17d227491d6@group.calendar.google.com"
 
-const jwtClient = new google.auth.JWT(
-  GOOGLE_CLIENT_EMAIL,
-  null,
-  GOOGLE_PRIVATE_KEY,
-  SCOPES
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Calenger Integration - Backend Server
+
+
+
+
+// Google OAuth configuration
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '281384130442-2ffd8m301o1okmsjl28v00gqqmtss9db.apps.googleusercontent.com';
+const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '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';
+const REDIRECT_URI = process.env.REDIRECT_URI || 'https://taskflow-enlep7oc.b4a.run/api/auth/google/callback';
+
+
+const oauth2Client = new google.auth.OAuth2(
+  CLIENT_ID,
+  CLIENT_SECRET,
+  REDIRECT_URI
 );
 
-const calendar = google.calendar({
-  version: 'v3',
-  project: GOOGLE_PROJECT_NUMBER,
-  auth: jwtClient
+// Helper function to refresh tokens if needed
+async function refreshTokensIfNeeded(userId) {
+  const dataPath = path.join(__dirname, 'data.json');
+  if (!fs.existsSync(dataPath)) {
+    throw new Error('User data not found');
+  }
+  
+  const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+  const user = data.users.find(user => user.id === parseInt(userId));
+  
+  if (!user || !user.googleTokens) {
+    throw new Error('User not found or not connected to Google Calendar');
+  }
+  
+  const tokens = user.googleTokens;
+  
+  // Check if tokens are expired and need refreshing
+  const expiryDate = tokens.expiry_date;
+  const now = Date.now();
+  
+  if (expiryDate && now >= expiryDate - 60000) { // 1 minute buffer
+    try {
+      // Refresh the token
+      oauth2Client.setCredentials(tokens);
+      const newTokens = await oauth2Client.refreshToken(tokens.refresh_token);
+      
+      // Update the tokens in our data store
+      user.googleTokens = newTokens.tokens;
+      fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+      
+      return newTokens.tokens;
+    } catch (error) {
+      console.error('Error refreshing token:', error);
+      throw new Error('Failed to refresh authentication token');
+    }
+  }
+  
+  return tokens;
+}
+
+// Debug route to verify server is running
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'Server is running' });
 });
 
-app.post("/createUserTask", (req, res) => {
-  // Get data from request body
-  const { 
-    userEmail, 
-    taskTitle, 
-    taskLocation, 
-    taskDescription, 
-    startDateTime, 
-    endDateTime, 
-    timeZone = 'Asia/Kolkata'
-  } = req.body;
+// Google auth route - This is where the redirect happens
+app.get('/auth/google', (req, res) => {
+  console.log('Auth route accessed with userId:', req.query.userId);
   
-  // Calculate reminder time (1 day before)
-  const reminderMinutes = 24 * 60; // 1 day in minutes
+  const userId = req.query.userId;
   
-  // Create the event object with private visibility
-  const event = {
-    'summary': taskTitle,
-    'location': taskLocation,
-    'description': `Assigned to: ${userEmail}\n\n${taskDescription}`,
-    'start': {
-      'dateTime': startDateTime,
-      'timeZone': timeZone,
-    },
-    'end': {
-      'dateTime': endDateTime,
-      'timeZone': timeZone,
-    },
-    'visibility': 'default', // Make the event private
-    'reminders': {
-      'useDefault': false,
-      'overrides': [
-        {'method': 'popup', 'minutes': reminderMinutes}
-      ],
-    }
-  };
+  if (!userId) {
+    return res.status(400).send('Missing userId parameter');
+  }
   
-  const auth = new google.auth.JWT(
-    GOOGLE_CLIENT_EMAIL,
-    null,
-    GOOGLE_PRIVATE_KEY,
-    ['https://www.googleapis.com/auth/calendar'] // Need write access
-  );
+  // Define the scopes we need
+  const scopes = [
+    'https://www.googleapis.com/auth/calendar',
+    'https://www.googleapis.com/auth/calendar.events'
+  ];
   
-  calendar.events.insert({
-    auth: auth,
-    calendarId: GOOGLE_CALENDAR_ID,
-    resource: event,
-    sendUpdates: 'all'
-  }, function(err, createdEvent) {
-    if (err) {
-      console.error('Error creating event:', err);
-      return res.status(500).json({ error: err.message });
+  // Generate the auth URL
+  const authUrl = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: scopes,
+    prompt: 'consent', // Force consent screen to ensure refresh token
+    state: userId // Pass the userId so we can retrieve it in the callback
+  });
+  
+  console.log('Redirecting to Google auth:', authUrl);
+  
+  // Redirect to Google's authorization page
+  res.redirect(authUrl);
+});
+
+// Google auth callback route
+app.get('/api/auth/google/callback', async (req, res) => {
+  console.log('Callback route accessed with code:', req.query.code ? 'present' : 'missing');
+  console.log('State (userId):', req.query.state);
+  console.log('Server received callback at:', new Date().toISOString());
+  console.log('Full URL:', req.protocol + '://' + req.get('host') + req.originalUrl);
+  console.log('Headers:', req.headers);
+  
+  try {
+    const { code, state } = req.query;
+    
+    if (!code) {
+      console.error('No authorization code received');
+      return res.redirect('/staffintegrations?calendarConnected=false&error=no_code');
     }
     
-    // After creating the event, set access control to only allow the specific user
-    calendar.acl.insert({
-      auth: auth,
-      calendarId: GOOGLE_CALENDAR_ID,
-      resource: {
-        role: 'reader',
-        scope: {
-          type: 'user',
-          value: userEmail
-        }
-      }
-    }, function(aclErr, aclResult) {
-      if (aclErr) {
-        console.error('Error setting event permissions:', aclErr);
-        // We still created the event, so return success with a warning
-        return res.status(200).json({ 
-          message: "Task created but permissions could not be set",
-          eventId: createdEvent.data.id,
-          warning: "The task may be visible to other users"
-        });
-      }
-      
-      console.log('Event created with proper permissions:', createdEvent.data);
-      res.status(200).json({ 
-        message: "Task successfully assigned to user privately!",
-        eventId: createdEvent.data.id
+    // Exchange the code for tokens
+    const { tokens } = await oauth2Client.getToken(code);
+    console.log('Tokens received:', tokens ? 'yes' : 'no');
+    
+    // Store tokens in your database
+    const userId = state;
+    if (!userId) {
+      console.error('No user ID received');
+      return res.redirect('/staffintegrations?calendarConnected=false&error=no_user_id');
+    }
+    
+    // For this example, we'll use a simple JSON file
+    // In production, use a proper database
+    const dataPath = path.join(__dirname, './data.json');
+    console.log('Data path:', dataPath);
+    const fileExists = fs.existsSync(dataPath);
+    console.log('Data file exists:', fileExists);
+    
+    let data;
+    
+    // Create the file if it doesn't exist
+    if (!fs.existsSync(dataPath)) {
+      data = { users: [] };
+    } else {
+      data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+      if (!data.users) data.users = [];
+    }
+    
+    // Find the user or create a new one
+    const userIndex = data.users.findIndex(user => user.id === parseInt(userId));
+    
+    if (userIndex === -1) {
+      // Add new user
+      data.users.push({
+        id: parseInt(userId),
+        googleTokens: tokens,
+        integrations: { calendar: true }
       });
-    });
-  });
+    } else {
+      // Update existing user
+      data.users[userIndex].googleTokens = tokens;
+      if (!data.users[userIndex].integrations) {
+        data.users[userIndex].integrations = {};
+      }
+      data.users[userIndex].integrations.calendar = true;
+    }
+    
+    // Save the data
+    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+    console.log('Tokens saved for user:', userId);
+    console.log('Data file write successful:', fs.existsSync(dataPath));
+
+    // Redirect back to the settings page
+// After successful OAuth processing
+    res.redirect('http://localhost:3000/staffintegrations?calendarConnected=true');
+    const savedData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+
+  } catch (error) {
+    console.error('Error in OAuth callback:', error);
+    res.redirect(`http://localhost:3000/staffintegrations?calendarConnected=false&error=${encodeURIComponent(error.message)}`);
+  }
 });
 
 
-app.listen(4000, () => console.log(`App listening on port 4000!`));
+app.get('/api/test-route', (req, res) => {
+  res.json({ message: 'Server route working' });
+});
+
+
+// Test endpoint to verify OAuth connection
+app.get('/api/check-calendar-connection', (req, res) => {
+  const { userId } = req.query;
+  
+  if (!userId) {
+    return res.status(400).json({ error: 'Missing userId parameter' });
+  }
+  
+  try {
+    const dataPath = path.join(__dirname, 'data.json');
+    
+    if (!fs.existsSync(dataPath)) {
+      return res.json({ connected: false });
+    }
+    
+    const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    
+    if (!data.users) {
+      return res.json({ connected: false });
+    }
+    
+    const user = data.users.find(user => user.id === parseInt(userId));
+    
+    if (!user) {
+      return res.json({ connected: false });
+    }
+    
+    const isConnected = !!(user.googleTokens && user.integrations?.calendar);
+    res.json({ connected: isConnected });
+  } catch (error) {
+    console.error('Error checking calendar connection:', error);
+    res.status(500).json({ error: 'Failed to check calendar connection' });
+  }
+});
+
+// Endpoint to disconnect Google Calendar
+app.post('/api/disconnect-google-calendar', (req, res) => {
+  const { userId } = req.body;
+  
+  if (!userId) {
+    return res.status(400).json({ error: 'Missing userId parameter' });
+  }
+  
+  try {
+    const dataPath = path.join(__dirname, 'data.json');
+    
+    if (!fs.existsSync(dataPath)) {
+      return res.status(404).json({ error: 'User data not found' });
+    }
+    
+    let data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    
+    const userIndex = data.users.findIndex(user => user.id === parseInt(userId));
+    
+    if (userIndex === -1) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    
+    if (!data.users[userIndex].integrations) {
+      data.users[userIndex].integrations = {};
+    }
+    
+    // Update calendar integration status
+    data.users[userIndex].integrations.calendar = false;
+    
+
+
+    // Remove Google tokens and update integration status
+    delete data.users[userIndex].googleTokens;
+
+
+      // Write changes back to file
+    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+    
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error disconnecting Google Calendar:', error);
+    res.status(500).json({ error: 'Failed to disconnect Google Calendar' });
+  }
+});
+
+// Function to create a calendar event when a task is created or updated
+app.post('/api/create-calendar-event', async (req, res) => {
+  const { userId, taskId, eventDetails } = req.body;
+  
+  if (!userId || !taskId || !eventDetails) {
+    return res.status(400).json({ error: 'Missing required parameters' });
+  }
+  
+  try {
+    // Get fresh tokens, refreshing if needed
+    const tokens = await refreshTokensIfNeeded(userId);
+    
+    // Set credentials
+    oauth2Client.setCredentials(tokens);
+    
+    // Create calendar client
+    const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+    
+    // Format the event object correctly
+    const calendarEvent = {
+      summary: eventDetails.summary || 'Task Deadline',
+      description: eventDetails.description || '',
+      start: {
+        dateTime: eventDetails.deadline || new Date().toISOString(),
+        timeZone: eventDetails.timeZone || 'UTC'
+      },
+      end: {
+        dateTime: eventDetails.endTime || 
+                new Date(new Date(eventDetails.deadline || Date.now()).getTime() + 3600000).toISOString(),
+        timeZone: eventDetails.timeZone || 'UTC'
+      },
+      // Add metadata to link this event back to our task
+      extendedProperties: {
+        private: {
+          taskId: taskId.toString()
+        }
+      }
+    };
+    
+    // Check if there's an existing event for this task
+    const dataPath = path.join(__dirname, 'data.json');
+    let data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    
+    const userIndex = data.users.findIndex(user => user.id === parseInt(userId));
+    
+    if (userIndex === -1) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    // Initialize task_events if not exist
+    if (!data.users[userIndex].task_events) {
+      data.users[userIndex].task_events = {};
+    }
+    
+    // If existing event, update it
+    if (data.users[userIndex].task_events[taskId]) {
+      const existingEventId = data.users[userIndex].task_events[taskId];
+      
+      try {
+        const updatedEvent = await calendar.events.update({
+          calendarId: 'primary',
+          eventId: existingEventId,
+          requestBody: calendarEvent
+        });
+        
+        res.json({ 
+          success: true, 
+          eventId: updatedEvent.data.id,
+          status: 'updated' 
+        });
+      } catch (error) {
+        // If event no longer exists, create a new one
+        if (error.code === 404) {
+          createNewEvent();
+        } else {
+          throw error;
+        }
+      }
+    } else {
+      // Create new event
+      createNewEvent();
+    }
+    
+    // Helper function to create a new event
+    async function createNewEvent() {
+      const event = await calendar.events.insert({
+        calendarId: 'primary',
+        requestBody: calendarEvent
+      });
+      
+      // Store the event ID
+      data.users[userIndex].task_events[taskId] = event.data.id;
+      fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+      
+      res.json({ 
+        success: true, 
+        eventId: event.data.id,
+        status: 'created' 
+      });
+    }
+    
+  } catch (error) {
+    console.error('Error creating calendar event:', error);
+    
+    // Handle specific OAuth errors
+    if (error.message.includes('invalid_grant')) {
+      // Token issues - require re-authentication
+      return res.status(401).json({ 
+        error: 'Authentication expired', 
+        action: 'reconnect' 
+      });
+    }
+    
+    res.status(500).json({ error: 'Failed to create calendar event' });
+  }
+});
+
+// Add endpoint to delete a calendar event when a task is deleted
+app.delete('/api/delete-calendar-event', async (req, res) => {
+  const { userId, taskId } = req.body;
+  
+  if (!userId || !taskId) {
+    return res.status(400).json({ error: 'Missing required parameters' });
+  }
+  
+  try {
+    // Get tokens, refreshing if needed
+    const tokens = await refreshTokensIfNeeded(userId);
+    
+    // Set credentials
+    oauth2Client.setCredentials(tokens);
+    
+    // Create calendar client
+    const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+    
+    // Get event ID from data store
+    const dataPath = path.join(__dirname, 'data.json');
+    let data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    
+    const userIndex = data.users.findIndex(user => user.id === parseInt(userId));
+    
+    if (userIndex === -1) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    // Check if we have an event ID for this task
+    if (!data.users[userIndex].task_events || !data.users[userIndex].task_events[taskId]) {
+      return res.json({ success: true, status: 'no_event_found' });
+    }
+    
+    const eventId = data.users[userIndex].task_events[taskId];
+    
+    // Delete the event
+    await calendar.events.delete({
+      calendarId: 'primary',
+      eventId: eventId
+    });
+    
+    // Remove the event ID from our data
+    delete data.users[userIndex].task_events[taskId];
+    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+    
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting calendar event:', error);
+    
+    // If event not found, consider it a success
+    if (error.code === 404) {
+      return res.json({ success: true, status: 'already_deleted' });
+    }
+    
+    res.status(500).json({ error: 'Failed to delete calendar event' });
+  }
+});
+
+
+// Fix for the TypeError
+async function createCalendarEvent(userId, eventDetails = {}) {
+  try {
+    // Load user data and tokens
+    const dataPath = path.join(__dirname, 'data.json');
+    const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    
+    // Find the user
+    const user = data.users.find(user => user.id === parseInt(userId));
+    
+    if (!user || !user.googleTokens) {
+      throw new Error('User not found or not connected to Google Calendar');
+    }
+    
+    // Set up OAuth client with the saved tokens
+    oauth2Client.setCredentials(user.googleTokens);
+    
+    // Create calendar client
+    const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+    
+    // Define the event with defaults for missing fields
+    const calendarEvent = {
+      summary: (eventDetails && eventDetails.title) || 'New Event',
+      description: (eventDetails && eventDetails.description) || '',
+      start: {
+        dateTime: (eventDetails && eventDetails.startTime) || new Date().toISOString(),
+        timeZone: (eventDetails && eventDetails.timeZone) || 'UTC'
+      },
+      end: {
+        dateTime: (eventDetails && eventDetails.endTime) || 
+                new Date(new Date((eventDetails && eventDetails.startTime) || Date.now()).getTime() + 3600000).toISOString(),
+        timeZone: (eventDetails && eventDetails.timeZone) || 'UTC'
+      }
+    };
+    
+    // Insert the event
+    const response = await calendar.events.insert({
+      calendarId: 'primary',
+      requestBody: calendarEvent
+    });
+    
+    console.log('Event created: %s', response.data.htmlLink);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating calendar event:', error);
+    throw error;
+  }
+}
+
+async function deleteCalendarEvent(userId, eventId) {
+  try {
+    // Load user data and tokens
+    const dataPath = path.join(__dirname, 'data.json');
+    const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    
+    // Find the user
+    const user = data.users.find(user => user.id === parseInt(userId));
+    
+    if (!user || !user.googleTokens) {
+      throw new Error('User not found or not connected to Google Calendar');
+    }
+    
+    // Set up OAuth client with the saved tokens
+    oauth2Client.setCredentials(user.googleTokens);
+    
+    // Create calendar client
+    const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+    
+    // Delete the event
+    await calendar.events.delete({
+      calendarId: 'primary',
+      eventId: eventId
+    });
+    
+    console.log('Event deleted:', eventId);
+    return { success: true, message: 'Event successfully deleted' };
+  } catch (error) {
+    console.error('Error deleting calendar event:', error);
+    
+    // If the event was already deleted or doesn't exist
+    if (error.code === 404) {
+      return { success: true, message: 'Event not found or already deleted' };
+    }
+    
+    throw error;
+  }
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -2045,24 +2511,41 @@ app.get('/api/integrations/:userId', (req, res) => {
 app.post('/api/integrations/:userId', (req, res) => {
   const userId = parseInt(req.params.userId);
   const updatedIntegrations = req.body.integrations;
-  
+
   if (!updatedIntegrations) {
     return res.status(400).json({ success: false, message: 'Integration data is required' });
   }
-  
+
   // Ensure mail is always true
   updatedIntegrations.mail = true;
-  
+
   const data = readData();
   const userIndex = data.users.findIndex(u => u.id === userId);
-  
+
   if (userIndex === -1) {
     return res.status(404).json({ success: false, message: 'User not found' });
   }
+
+  // Make sure integrations object exists
+  if (!data.users[userIndex].integrations) {
+    data.users[userIndex].integrations = {};
+  }
+  console.log(Object.keys(updatedIntegrations));
+  // Update only the fields provided in updatedIntegrations
+  const existingIntegrations = data.users[userIndex].integrations || {};
+
+  // Ensure mail is always true
+  updatedIntegrations.mail = true;
   
-  // Update user's integrations
-  data.users[userIndex].integrations = updatedIntegrations;
+  Object.keys(updatedIntegrations).forEach(key => {
+    if (key !== 'calendar') {
+      existingIntegrations[key] = updatedIntegrations[key];
+    }
+  });
   
+  // Save the updated integrations back
+  data.users[userIndex].integrations = existingIntegrations;
+
   if (writeData(data)) {
     res.json({ 
       success: true, 
@@ -2073,6 +2556,7 @@ app.post('/api/integrations/:userId', (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to update integration settings' });
   }
 });
+
 
 
 
@@ -3106,9 +3590,51 @@ app.get('/api/tasks/requests/history/all', (req, res) => {
 
 
 
+// Add this endpoint to your backend server (e.g., in routes/taskRoutes.js)
+app.get('/admin/tasks/user/:userId', (req, res) => {
+  try {
+    const userId = req.params.userId;
+    
+    // Using callback version of readFile
+    fs.readFile('./data.json', 'utf8', (err, data) => {
+      if (err) {
+        console.error('Error reading file:', err);
+        return res.status(500).json({ message: 'Error fetching user tasks', error: err.message });
+      }
+      
+      try {
+        const parsedData = JSON.parse(data);
+        const userTasks = parsedData.tasks.filter(task => task.assignedTo == userId);
+        
+        // Find the user to include their details
+        const userData = parsedData.users.find(user => user.id == userId);
+        
+        // Return both user data and tasks
+        res.status(200).json({
+          user: userData,
+          tasks: userTasks
+        });
+      } catch (parseError) {
+        console.error('Error parsing JSON:', parseError);
+        res.status(500).json({ message: 'Error parsing task data', error: parseError.message });
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching user tasks:', error);
+    res.status(500).json({ message: 'Error fetching user tasks', error: error.message });
+  }
+});
+
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
+
+
+
 
 
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on https://taskflow-enlep7oc.b4a.run:${PORT}`);
 });
