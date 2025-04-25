@@ -2,57 +2,14 @@
   "users": [
     {
       "id": 5,
-      "username": "anush",
-      "email": "anusuya.cs21@bitsathy.ac.in",
+      "username": "kavin",
+      "email": "kavin.apm2003@gmail.com",
       "password": "$2b$10$n391RT6hfbCwvOuZun5ZuulBNn5doKDCT2DDlVNzwz.dF8zP7G6Rm",
       "role": "user",
       "integrations": {
         "whatsapp": true,
         "message": true,
         "voiceCall": true,
-        "mail": true,
-        "calendar": false
-      },
-      "phoneNumber": "8072677947"
-    },
-    {
-      "id": 6,
-      "username": "allwin",
-      "email": "allwin.cs21@bitsathy.ac.in",
-      "password": "$2b$10$xkLC/DU4SkwzngReJiN5s.jaXqUygrooOaG4hd2bRnvyO9cwZp5vG",
-      "role": "user",
-      "integrations": {
-        "whatsapp": false,
-        "message": false,
-        "voiceCall": false,
-        "mail": true,
-        "calendar": false
-      }
-    },
-    {
-      "id": 7,
-      "username": "saai",
-      "email": "saaivignesh.cs21@bitsathy.ac.in",
-      "password": "$2b$10$ncbrievm1tex0fuZui9gTuAuGceDYFWdsIsLQzkvV5am0O8LW3Wyu",
-      "role": "user",
-      "integrations": {
-        "whatsapp": false,
-        "message": false,
-        "voiceCall": false,
-        "mail": true,
-        "calendar": false
-      }
-    },
-    {
-      "id": 8,
-      "username": "kavin",
-      "email": "kavinkumar.cs21@bitsathy.ac.in",
-      "password": "$2b$10$yiJxx4/29rDgtiUqBqjMiO/rWyCKvQsEqNZO15NAyENdusIh6Hefy",
-      "role": "admin",
-      "integrations": {
-        "whatsapp": false,
-        "message": false,
-        "voiceCall": false,
         "mail": true,
         "calendar": false
       }
@@ -63,20 +20,6 @@
       "email": "kavin.apm2003@gmail.com",
       "password": "$2b$10$tasgEQWrbwtwxK8cRNY./Ofd/TzDC9iXv9li3p7sn04VX9LiNNFjK",
       "role": "admin",
-      "integrations": {
-        "whatsapp": false,
-        "message": false,
-        "voiceCall": false,
-        "mail": true,
-        "calendar": false
-      }
-    },
-    {
-      "id": 10,
-      "username": "Sathis kumar",
-      "email": "sathiscse7@gmail.com",
-      "password": "$2b$10$kwdgUFpzbR3FgMSdL2NS7OrjTwYVETki2wEZYHumPumoo864r3l5a",
-      "role": "user",
       "integrations": {
         "whatsapp": false,
         "message": false,
@@ -350,164 +293,6 @@
         "originalname": "code review_Marks.pdf",
         "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744969961196-3mubf41nfmo.pdf"
       }
-    },
-    {
-      "id": 10,
-      "title": "Laboratory Equipment Audit",
-      "description": "Conduct audit of laboratory equipment and prepare maintenance report",
-      "tags": [
-        "Laboratory"
-      ],
-      "assignedTo": "6",
-      "dueDate": "2025-04-21",
-      "priority": "Medium",
-      "status": "Pending",
-      "referenceLink": "",
-      "file": null
-    },
-    {
-      "id": 11,
-      "title": "Placement Brochure Creation",
-      "description": "Create comprehensive placement brochure for upcoming campus recruitment season",
-      "tags": [
-        "placements"
-      ],
-      "assignedTo": "6",
-      "dueDate": "2025-04-20",
-      "priority": "Medium",
-      "status": "Completed",
-      "referenceLink": "",
-      "file": null,
-      "daysUntilDeadline": 2,
-      "completionDetails": {
-        "feedback": "Completed",
-        "link": "",
-        "completedBy": 6,
-        "completedDate": "2025-04-18T10:12:08.349Z",
-        "currentStatus": "Pending"
-      },
-      "attachmentFile": {
-        "filename": "1744971108998-a5cgjv27u7b.jpg",
-        "originalName": "Placement Brochure.jpg",
-        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744971108998-a5cgjv27u7b.jpg",
-        "size": 151466
-      }
-    },
-    {
-      "id": 12,
-      "title": "Academic Calendar Planning",
-      "description": "Create comprehensive academic calendar for upcoming academic year",
-      "tags": [
-        "Documentation"
-      ],
-      "assignedTo": "7",
-      "dueDate": "2025-04-20",
-      "priority": "Medium",
-      "status": "Completed",
-      "referenceLink": "",
-      "file": null,
-      "daysUntilDeadline": 2,
-      "completionDetails": {
-        "feedback": "",
-        "link": "",
-        "completedBy": 7,
-        "completedDate": "2025-04-18T10:20:08.119Z",
-        "currentStatus": "Pending"
-      },
-      "attachmentFile": {
-        "filename": "1744971588624-tdlyu74031b.pdf",
-        "originalName": "UG - S8 .pdf",
-        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744971588624-tdlyu74031b.pdf",
-        "size": 369285
-      }
-    },
-    {
-      "id": 13,
-      "title": "S8 Project Assessment Criteria",
-      "description": "Create comprehensive assessment criteria for S8 Project evaluations",
-      "tags": [
-        "S8 Project"
-      ],
-      "assignedTo": "7",
-      "dueDate": "2025-04-22",
-      "priority": "Medium",
-      "status": "Rework",
-      "referenceLink": "https://drive.google.com/file/d/1_qPZ_AKnTKvPrJUU_wkEw3KhOfRc181K/view?usp=drive_link",
-      "file": null,
-      "daysUntilDeadline": 4,
-      "completionDetails": {
-        "feedback": "I developed a clear and structured framework to ensure fair and consistent evaluation of final semester projects. It includes key components like planning, implementation, innovation, research, teamwork, presentation, and impact, each with defined weightage and descriptive indicators. I referred to existing models, consulted faculty, and considered student perspectives to ensure the criteria are relevant, transparent, and easy to apply. This framework helps both evaluators and students by setting clear expectations and improving the overall assessment process.",
-        "link": "",
-        "completedBy": 7,
-        "completedDate": "2025-04-18T10:17:53.545Z",
-        "currentStatus": "Pending"
-      },
-      "attachmentFile": {
-        "filename": "1744971473551-wi8a3na6f9.pdf",
-        "originalName": "S8 - REVIEW EVALUATION PARAMETER (1).pdf",
-        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744971473551-wi8a3na6f9.pdf",
-        "size": 135955
-      },
-      "reworkDetails": [
-        {
-          "comment": "gddgs",
-          "deadline": "2025-04-26",
-          "date": "2025-04-19T04:56:37.874Z",
-          "requestedBy": null,
-          "reminderSent": true
-        }
-      ]
-    },
-    {
-      "id": 14,
-      "title": "Collect student resumes",
-      "description": "collect student resumes with updated photos for future placements.",
-      "tags": [
-        "placements"
-      ],
-      "assignedTo": "8",
-      "dueDate": "2025-04-23",
-      "priority": "Low",
-      "status": "Rework",
-      "referenceLink": "",
-      "file": null,
-      "daysUntilDeadline": 5,
-      "completionDetails": {
-        "feedback": "collected them as physical",
-        "link": "",
-        "completedBy": 8,
-        "completedDate": "2025-04-18T10:26:11.250Z",
-        "currentStatus": "Pending"
-      },
-      "attachmentFile": {
-        "filename": "1744971971258-rysqgc8216.pdf",
-        "originalName": "Anusuya_ Resume.pdf",
-        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744971971258-rysqgc8216.pdf",
-        "size": 186576
-      },
-      "reworkDetails": [
-        {
-          "comment": "collect through google forms also",
-          "deadline": "2025-04-23",
-          "date": "2025-04-18T10:27:08.246Z",
-          "requestedBy": null
-        }
-      ]
-    },
-    {
-      "id": 15,
-      "title": "Placement Written Test",
-      "description": "Conduct weekly placement written test by taking questions from previous interview experience",
-      "tags": [
-        "placements",
-        "Question Paper"
-      ],
-      "assignedTo": "8",
-      "dueDate": "2025-04-23",
-      "priority": "High",
-      "status": "Pending",
-      "referenceLink": "",
-      "file": null
     }
   ],
   "tags": [
