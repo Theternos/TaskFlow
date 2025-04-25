@@ -51,7 +51,7 @@ TaskFlow/
    npm install express cors body-parser multer twilio dotenv googleapis fast2sms
    ```
 
-4. Create a `.env` file and add your config:
+4. Create a `.env` file inside the `backend/` folder and add your configuration values:
    ```env
    # WhatsApp
    WHATSAPP_APPKEY=your_key
@@ -80,8 +80,18 @@ TaskFlow/
    GOOGLE_CLIENT_SECRET=your_secret
    REDIRECT_URI=http://localhost:5000/api/auth/google/callback
    ```
+   🔸 **Make sure the `.env` file is placed inside the `backend/` folder**.
 
-5. Update credentials in `index.js` where necessary.
+5. **Update hardcoded configs**  
+   In `backend/index.js`, search for `"Change as per your need"` and **change values** like:
+
+   - API keys  
+   - Auth tokens  
+   - Email addresses  
+   - Twilio URLs  
+   - Google OAuth credentials  
+
+   🔍 This step is essential to ensure your app uses correct and secure environment variables, but here we use environment variables.
 
 6. Start the backend server:
    ```bash
