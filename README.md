@@ -128,6 +128,29 @@ TaskFlow/
 
 ---
 
+## 🔐 Initial Credentials
+
+You can use the following test credentials after setup:
+
+### 👨‍💼 Admin Login
+- **Username**: `admin`  
+- **Password**: `4321`
+
+### 👤 User Login
+- **Username**: `kavin`  
+- **Password**: `123`
+
+---
+
+## ➕ Create a New User
+
+To create a new user, navigate to:  
+👉 [http://localhost:3000/users](http://localhost:3000/users)
+
+There you can add user details and assign roles.
+
+---
+
 ## 🔌 Third-Party Integration Highlights
 
 | Service           | Purpose               | Setup Link |
