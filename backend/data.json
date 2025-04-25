@@ -1,0 +1,524 @@
+{
+  "users": [
+    {
+      "id": 5,
+      "username": "anush",
+      "email": "anusuya.cs21@bitsathy.ac.in",
+      "password": "$2b$10$n391RT6hfbCwvOuZun5ZuulBNn5doKDCT2DDlVNzwz.dF8zP7G6Rm",
+      "role": "user",
+      "integrations": {
+        "whatsapp": true,
+        "message": true,
+        "voiceCall": true,
+        "mail": true,
+        "calendar": false
+      },
+      "phoneNumber": "8072677947"
+    },
+    {
+      "id": 6,
+      "username": "allwin",
+      "email": "allwin.cs21@bitsathy.ac.in",
+      "password": "$2b$10$xkLC/DU4SkwzngReJiN5s.jaXqUygrooOaG4hd2bRnvyO9cwZp5vG",
+      "role": "user",
+      "integrations": {
+        "whatsapp": false,
+        "message": false,
+        "voiceCall": false,
+        "mail": true,
+        "calendar": false
+      }
+    },
+    {
+      "id": 7,
+      "username": "saai",
+      "email": "saaivignesh.cs21@bitsathy.ac.in",
+      "password": "$2b$10$ncbrievm1tex0fuZui9gTuAuGceDYFWdsIsLQzkvV5am0O8LW3Wyu",
+      "role": "user",
+      "integrations": {
+        "whatsapp": false,
+        "message": false,
+        "voiceCall": false,
+        "mail": true,
+        "calendar": false
+      }
+    },
+    {
+      "id": 8,
+      "username": "kavin",
+      "email": "kavinkumar.cs21@bitsathy.ac.in",
+      "password": "$2b$10$yiJxx4/29rDgtiUqBqjMiO/rWyCKvQsEqNZO15NAyENdusIh6Hefy",
+      "role": "admin",
+      "integrations": {
+        "whatsapp": false,
+        "message": false,
+        "voiceCall": false,
+        "mail": true,
+        "calendar": false
+      }
+    },
+    {
+      "id": 9,
+      "username": "admin",
+      "email": "kavin.apm2003@gmail.com",
+      "password": "$2b$10$tasgEQWrbwtwxK8cRNY./Ofd/TzDC9iXv9li3p7sn04VX9LiNNFjK",
+      "role": "admin",
+      "integrations": {
+        "whatsapp": false,
+        "message": false,
+        "voiceCall": false,
+        "mail": true,
+        "calendar": false
+      }
+    },
+    {
+      "id": 10,
+      "username": "Sathis kumar",
+      "email": "sathiscse7@gmail.com",
+      "password": "$2b$10$kwdgUFpzbR3FgMSdL2NS7OrjTwYVETki2wEZYHumPumoo864r3l5a",
+      "role": "user",
+      "integrations": {
+        "whatsapp": false,
+        "message": false,
+        "voiceCall": false,
+        "mail": true,
+        "calendar": false
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "id": 2,
+      "title": "S8 outcome verification",
+      "description": "Verify the s8 project outcome status and upload proof of certification along corresponding documents",
+      "tags": [
+        "S8 Project"
+      ],
+      "assignedTo": "5",
+      "dueDate": "2025-04-21",
+      "priority": "Medium",
+      "status": "Progress",
+      "referenceLink": "",
+      "file": null,
+      "daysUntilDeadline": 3,
+      "completionDetails": {
+        "feedback": "Completed",
+        "link": "https://drive.google.com/drive/folders/17CCH3k_O46-GrrtJ358fylY3uOYGwi1L",
+        "completedBy": 5,
+        "completedDate": "2025-04-18T08:48:57.298Z",
+        "currentStatus": "Pending"
+      },
+      "attachmentFile": {
+        "filename": "1744966137304-tcs16c6ejw.pdf",
+        "originalName": "7376211CS117.pdf",
+        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744966137304-tcs16c6ejw.pdf",
+        "size": 473814
+      },
+      "reworkDetails": [
+        {
+          "comment": "Documents missing",
+          "deadline": "2025-04-21",
+          "date": "2025-04-18T08:49:51.976Z",
+          "requestedBy": null
+        },
+        {
+          "comment": "Documents missing",
+          "deadline": "2025-04-21",
+          "date": "2025-04-18T08:49:53.147Z",
+          "requestedBy": null
+        },
+        {
+          "comment": "Documents missing",
+          "deadline": "2025-04-21",
+          "date": "2025-04-18T08:49:55.312Z",
+          "requestedBy": null,
+          "completionDetails": {
+            "feedback": "hwhw",
+            "link": "",
+            "completedBy": 5,
+            "completedDate": "2025-04-19T04:57:36.575Z",
+            "currentStatus": "Rework"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "S8 project report",
+      "description": "Verify the project report formats and upload the final copy",
+      "tags": [
+        "S8 Project",
+        "Documentation"
+      ],
+      "assignedTo": "5",
+      "dueDate": "2025-04-22",
+      "priority": "Low",
+      "status": "Completed",
+      "referenceLink": "https://drive.google.com/drive/folders/14_Qm7jIHOJLVrIdrirhOWOMLGp3S4G9E",
+      "file": {
+        "filename": "1744966538300-cfnzgfd63w6.pdf",
+        "originalname": "S8 - Report cover - Main.pdf",
+        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744966538300-cfnzgfd63w6.pdf",
+        "size": 144362
+      },
+      "daysUntilDeadline": 4,
+      "completionDetails": {
+        "feedback": "\nVerified and uploded the documents",
+        "link": "https://drive.google.com/drive/folders/1zsIvf_TLvo89dHTQfQpMJb3rNeltjAEb",
+        "completedBy": 5,
+        "completedDate": "2025-04-18T09:16:49.374Z",
+        "currentStatus": "Pending"
+      },
+      "attachmentFile": {
+        "filename": "1744966698287-qizmrcpqfzj.pdf",
+        "originalName": "S8 - Report final.pdf",
+        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744966698287-qizmrcpqfzj.pdf",
+        "size": 4762075
+      }
+    },
+    {
+      "id": 4,
+      "title": "Timer UI Design with Basic functionality",
+      "description": "Designed UI for Start, Pause, Resume, and Stop buttons using React with responsive styling.",
+      "tags": [
+        "Web Dev",
+        "UI"
+      ],
+      "assignedTo": "5",
+      "dueDate": "2025-04-20",
+      "priority": "High",
+      "status": "Pending",
+      "referenceLink": "https://medium.com/@diptimaya.patra/count-down-timer-in-react-using-material-ui-with-worker-setinterval-ffc40b6e990e",
+      "file": {
+        "filename": "1744967236697-36is8s7w2cq.pdf",
+        "originalname": "sample_template.pdf",
+        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744967236697-36is8s7w2cq.pdf",
+        "size": 4029010
+      },
+      "extensionRequests": [
+        {
+          "reason": "Working on UI need time for implementing Functionalities",
+          "requestDate": "2025-04-22",
+          "requestedBy": 5,
+          "status": "Approved",
+          "attachmentFile": null
+        }
+      ],
+      "cancellationRequests": [
+        {
+          "reason": "The Timer UI feature is no longer a priority based on updated project needs. Development is paused to focus on more essential tasks.",
+          "requestedBy": 5,
+          "requestDate": "2025-04-18T14:32:49.921Z",
+          "status": "Pending",
+          "attachmentFile": null
+        }
+      ],
+      "reminderSent": true
+    },
+    {
+      "id": 5,
+      "title": "Complete no due collection",
+      "description": "Collect the no due form along with passbook copy",
+      "tags": [
+        "Documentation"
+      ],
+      "assignedTo": "5",
+      "dueDate": "2025-04-23",
+      "priority": "High",
+      "status": "Progress",
+      "referenceLink": "",
+      "file": {
+        "filename": "1744967736367-19sv25ncavo.pdf",
+        "originalname": "sample_template.pdf",
+        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744967736367-19sv25ncavo.pdf"
+      },
+      "daysUntilDeadline": 5,
+      "completionDetails": {
+        "feedback": "completed ",
+        "link": "",
+        "completedBy": 5,
+        "completedDate": "2025-04-18T09:16:21.496Z",
+        "currentStatus": "Pending"
+      }
+    },
+    {
+      "id": 6,
+      "title": "S5 lesson plan",
+      "description": "Submit S5 lesson plans and Lecture materials",
+      "tags": [
+        "Documentation"
+      ],
+      "assignedTo": "5",
+      "dueDate": "2025-04-18",
+      "priority": "Medium",
+      "status": "Pending",
+      "referenceLink": "",
+      "file": null,
+      "reminderSent": true,
+      "extensionRequests": [
+        {
+          "reason": "As I was having Continous Exam Duty, I was not able complete",
+          "requestDate": "2025-04-22",
+          "requestedBy": 5,
+          "status": "Pending",
+          "attachmentFile": null
+        }
+      ],
+      "cancellationRequests": [
+        {
+          "reason": "havigexamduty",
+          "requestedBy": 5,
+          "requestDate": "2025-04-19T04:37:14.241Z",
+          "status": "Pending",
+          "attachmentFile": {
+            "filename": "1745037434136-069wq9yfsz7c.pdf",
+            "originalName": "Cover Page (4 files merged) (2)_pagenumber.pdf",
+            "path": "C:\\Users\\kavin\\Downloads\\task-manager\\task-manager\\TaskFlow - Copy\\backend\\uploads\\1745037434136-069wq9yfsz7c.pdf",
+            "size": 445976
+          }
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "S8 project status",
+      "description": "Update S8 project status along with proof",
+      "tags": [
+        "S8 Project"
+      ],
+      "assignedTo": "5",
+      "dueDate": "2025-04-24",
+      "priority": "Low",
+      "status": "Pending",
+      "referenceLink": "",
+      "file": null
+    },
+    {
+      "id": 8,
+      "title": "Semester Exam Question Papers",
+      "description": "Prepare question papers for upcoming mid-semester examinations. Sample format is attached along",
+      "tags": [
+        "Question Paper"
+      ],
+      "assignedTo": "5",
+      "dueDate": "2025-04-26",
+      "priority": "Low",
+      "status": "Pending",
+      "referenceLink": "",
+      "file": {
+        "filename": "1744969349517-regs49i987f.pdf",
+        "originalname": "QP.pdf",
+        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744969349517-regs49i987f.pdf"
+      },
+      "cancellationRequests": [
+        {
+          "reason": "Another staff member is preparing a question paper for the same subject.",
+          "requestedBy": 5,
+          "requestDate": "2025-04-18T14:22:48.941Z",
+          "status": "Declined",
+          "attachmentFile": null,
+          "feedback": "Yeah, we need 2 sets of question papers, so kindly work with that.",
+          "declinedDate": "2025-04-18T14:23:59.728Z"
+        },
+        {
+          "reason": "I understand that, but there are already 2 staff members working with that.",
+          "requestedBy": 5,
+          "requestDate": "2025-04-18T14:25:12.190Z",
+          "status": "Declined",
+          "attachmentFile": null,
+          "feedback": "Yeah, but 1 staff member is on leave. So kindly proceed with this.",
+          "declinedDate": "2025-04-18T14:31:01.179Z"
+        }
+      ],
+      "reminderSent": true
+    },
+    {
+      "id": 9,
+      "title": "Conduct code review and upload marks",
+      "description": "Review code for consistency and optimization and upload the documents containing detailed mark distribution. check pdf attached for criteria",
+      "tags": [
+        "Web Dev",
+        "Documentation"
+      ],
+      "assignedTo": "5",
+      "dueDate": "2025-04-25",
+      "priority": "Low",
+      "status": "Pending",
+      "referenceLink": "",
+      "file": {
+        "filename": "1744969961196-3mubf41nfmo.pdf",
+        "originalname": "code review_Marks.pdf",
+        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744969961196-3mubf41nfmo.pdf"
+      }
+    },
+    {
+      "id": 10,
+      "title": "Laboratory Equipment Audit",
+      "description": "Conduct audit of laboratory equipment and prepare maintenance report",
+      "tags": [
+        "Laboratory"
+      ],
+      "assignedTo": "6",
+      "dueDate": "2025-04-21",
+      "priority": "Medium",
+      "status": "Pending",
+      "referenceLink": "",
+      "file": null
+    },
+    {
+      "id": 11,
+      "title": "Placement Brochure Creation",
+      "description": "Create comprehensive placement brochure for upcoming campus recruitment season",
+      "tags": [
+        "placements"
+      ],
+      "assignedTo": "6",
+      "dueDate": "2025-04-20",
+      "priority": "Medium",
+      "status": "Completed",
+      "referenceLink": "",
+      "file": null,
+      "daysUntilDeadline": 2,
+      "completionDetails": {
+        "feedback": "Completed",
+        "link": "",
+        "completedBy": 6,
+        "completedDate": "2025-04-18T10:12:08.349Z",
+        "currentStatus": "Pending"
+      },
+      "attachmentFile": {
+        "filename": "1744971108998-a5cgjv27u7b.jpg",
+        "originalName": "Placement Brochure.jpg",
+        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744971108998-a5cgjv27u7b.jpg",
+        "size": 151466
+      }
+    },
+    {
+      "id": 12,
+      "title": "Academic Calendar Planning",
+      "description": "Create comprehensive academic calendar for upcoming academic year",
+      "tags": [
+        "Documentation"
+      ],
+      "assignedTo": "7",
+      "dueDate": "2025-04-20",
+      "priority": "Medium",
+      "status": "Completed",
+      "referenceLink": "",
+      "file": null,
+      "daysUntilDeadline": 2,
+      "completionDetails": {
+        "feedback": "",
+        "link": "",
+        "completedBy": 7,
+        "completedDate": "2025-04-18T10:20:08.119Z",
+        "currentStatus": "Pending"
+      },
+      "attachmentFile": {
+        "filename": "1744971588624-tdlyu74031b.pdf",
+        "originalName": "UG - S8 .pdf",
+        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744971588624-tdlyu74031b.pdf",
+        "size": 369285
+      }
+    },
+    {
+      "id": 13,
+      "title": "S8 Project Assessment Criteria",
+      "description": "Create comprehensive assessment criteria for S8 Project evaluations",
+      "tags": [
+        "S8 Project"
+      ],
+      "assignedTo": "7",
+      "dueDate": "2025-04-22",
+      "priority": "Medium",
+      "status": "Rework",
+      "referenceLink": "https://drive.google.com/file/d/1_qPZ_AKnTKvPrJUU_wkEw3KhOfRc181K/view?usp=drive_link",
+      "file": null,
+      "daysUntilDeadline": 4,
+      "completionDetails": {
+        "feedback": "I developed a clear and structured framework to ensure fair and consistent evaluation of final semester projects. It includes key components like planning, implementation, innovation, research, teamwork, presentation, and impact, each with defined weightage and descriptive indicators. I referred to existing models, consulted faculty, and considered student perspectives to ensure the criteria are relevant, transparent, and easy to apply. This framework helps both evaluators and students by setting clear expectations and improving the overall assessment process.",
+        "link": "",
+        "completedBy": 7,
+        "completedDate": "2025-04-18T10:17:53.545Z",
+        "currentStatus": "Pending"
+      },
+      "attachmentFile": {
+        "filename": "1744971473551-wi8a3na6f9.pdf",
+        "originalName": "S8 - REVIEW EVALUATION PARAMETER (1).pdf",
+        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744971473551-wi8a3na6f9.pdf",
+        "size": 135955
+      },
+      "reworkDetails": [
+        {
+          "comment": "gddgs",
+          "deadline": "2025-04-26",
+          "date": "2025-04-19T04:56:37.874Z",
+          "requestedBy": null,
+          "reminderSent": true
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Collect student resumes",
+      "description": "collect student resumes with updated photos for future placements.",
+      "tags": [
+        "placements"
+      ],
+      "assignedTo": "8",
+      "dueDate": "2025-04-23",
+      "priority": "Low",
+      "status": "Rework",
+      "referenceLink": "",
+      "file": null,
+      "daysUntilDeadline": 5,
+      "completionDetails": {
+        "feedback": "collected them as physical",
+        "link": "",
+        "completedBy": 8,
+        "completedDate": "2025-04-18T10:26:11.250Z",
+        "currentStatus": "Pending"
+      },
+      "attachmentFile": {
+        "filename": "1744971971258-rysqgc8216.pdf",
+        "originalName": "Anusuya_ Resume.pdf",
+        "path": "C:\\Users\\Anusuya J\\Downloads\\taskf\\task-manager\\backend\\uploads\\1744971971258-rysqgc8216.pdf",
+        "size": 186576
+      },
+      "reworkDetails": [
+        {
+          "comment": "collect through google forms also",
+          "deadline": "2025-04-23",
+          "date": "2025-04-18T10:27:08.246Z",
+          "requestedBy": null
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Placement Written Test",
+      "description": "Conduct weekly placement written test by taking questions from previous interview experience",
+      "tags": [
+        "placements",
+        "Question Paper"
+      ],
+      "assignedTo": "8",
+      "dueDate": "2025-04-23",
+      "priority": "High",
+      "status": "Pending",
+      "referenceLink": "",
+      "file": null
+    }
+  ],
+  "tags": [
+    "UI",
+    "Web Dev",
+    "Documentation",
+    "API",
+    "Security",
+    "S8 Project",
+    "Question Paper",
+    "Laboratory",
+    "placements"
+  ]
+}

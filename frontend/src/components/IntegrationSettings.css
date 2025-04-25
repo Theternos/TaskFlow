@@ -1,0 +1,526 @@
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    color: var(--dark);
+    background-color: var(--gray-100);
+    line-height: 1.5;
+  }
+  
+  /* Integration container */
+  .integrations-container {
+    max-width: 1300px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+  
+  .integration-card {
+    background-color: var(--light);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    transition: var(--transition);
+  }
+  
+  /* Header */
+  .integration-header {
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  
+  .integration-header::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background-color: var(--primary);
+    border-radius: var(--radius-lg);
+  }
+  
+  .integration-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--dark);
+  }
+  
+  .integration-description {
+    color: var(--gray-600);
+    margin-bottom: 2rem;
+    font-size: 1rem;
+  }
+  
+  /* Message alerts */
+  .message {
+    padding: .2rem 0 0 .6rem;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+  }
+  
+  .message.success {
+    background-color: rgba(76, 201, 240, 0.1);
+    color: var(--success);
+    border-left: 4px solid var(--success);
+  }
+  
+  .message.error {
+    background-color: rgba(249, 65, 68, 0.1);
+    color: var(--danger);
+    border-left: 4px solid var(--danger);
+  }
+  
+  .message i {
+    margin-right: 0.75rem;
+    font-size: 1.25rem;
+  }
+  
+  /* Integration list */
+  .integration-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .integration-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem;
+    border-radius: var(--radius);
+    background-color: var(--gray-100);
+    transition: var(--transition);
+  }
+    
+  .integration-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .integration-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.25rem;
+  }
+  
+  .integration-icon.mail {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  }
+  
+  .integration-icon.whatsapp {
+    background: linear-gradient(135deg, #25d366, #128C7E);
+  }
+  
+  .integration-icon.message {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+  }
+  
+  .integration-icon.voice-call {
+    background: linear-gradient(135deg, var(--accent), #E61A6B);
+  }
+  
+  .integration-icon.calendar {
+    background: linear-gradient(135deg, #EA4335, #FBBC05);
+  }
+  
+  .integration-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .integration-name {
+    font-weight: 600;
+    color: var(--dark);
+    font-size: 1.125rem;
+  }
+  
+  .integration-details .integration-description {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--gray-500);
+  }
+  
+  /* Toggle switch */
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+  }
+  
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--gray-300);
+    transition: var(--transition);
+    border-radius: 34px;
+  }
+  
+  .toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: var(--transition);
+    border-radius: 50%;
+  }
+  
+  input:checked + .toggle-slider {
+    background-color: var(--primary);
+  }
+  
+  input:disabled + .toggle-slider {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+  }
+  
+  /* Calendar link section */
+  .calendar-link-section {
+    background-color: rgba(67, 97, 238, 0.05);
+    border: 1px solid rgba(67, 97, 238, 0.1);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .calendar-link-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+  }
+  
+  .calendar-link-title i {
+    font-size: 1rem;
+  }
+  
+  .calendar-link-description {
+    color: var(--gray-600);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .calendar-link {
+    display: block;
+    background-color: var(--light);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    word-break: break-all;
+    border: 1px solid var(--gray-200);
+    transition: var(--transition);
+  }
+  
+  .calendar-link:hover {
+    background-color: var(--gray-100);
+    border-color: var(--primary-light);
+  }
+  
+  /* Save button */
+  .save-button {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .save-button:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  
+  .save-button:active {
+    transform: translateY(0);
+  }
+  
+  .save-button.saving {
+    opacity: 0.8;
+    cursor: wait;
+  }
+  
+  .save-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .integration-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .toggle-switch {
+      align-self: flex-end;
+    }
+  
+    .integration-card {
+      padding: 1.5rem;
+    }
+  }
+
+  /* Modal styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+  }
+  
+  .modal-content {
+    background-color: var(--light);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    width: 90%;
+    max-width: 500px;
+    overflow: hidden;
+    animation: modalFadeIn 0.3s ease;
+  }
+  
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  
+  .modal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin: 0;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    color: var(--gray-500);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  
+  .close-button:hover {
+    color: var(--danger);
+  }
+  
+  .modal-body {
+    padding: 1.5rem;
+  }
+  
+  .modal-body p {
+    margin-bottom: 1.25rem;
+    color: var(--gray-600);
+  }
+  
+  .phone-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .phone-input-container label {
+    font-weight: 500;
+    color: var(--gray-700);
+    font-size: 0.9rem;
+  }
+  
+  .phone-input-container input {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+  
+  .phone-input-container input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+  }
+  
+  .phone-input-container input.error {
+    border-color: var(--danger);
+  }
+  
+  .error-message {
+    color: var(--danger);
+    font-size: 0.875rem;
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    border-top: 1px solid var(--gray-200);
+    background-color: var(--gray-100);
+  }
+  
+  .cancel-button {
+    padding: 0.75rem 1.25rem;
+    background-color: var(--light);
+    color: var(--gray-600);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  
+  .cancel-button:hover {
+    background-color: var(--gray-200);
+  }
+  
+ /* Add these styles to your IntegrationSettings.css file */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .phone-modal {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .phone-modal h3 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .phone-input-container {
+    margin: 20px 0;
+  }
+  
+  .phone-input-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .phone-input-container input.error {
+    border-color: #ff3b30;
+  }
+  
+  .error-message {
+    color: #ff3b30;
+    margin-top: 5px;
+    font-size: 14px;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .cancel-button {
+    padding: 8px 16px;
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .cancel-button:hover {
+    background-color: #e1e1e1;
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #777;
+  }
+  
+  .close-button:hover {
+    color: #333;
+  }
